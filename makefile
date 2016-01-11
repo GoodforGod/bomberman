@@ -1,14 +1,14 @@
 CFLAGS = -Wall -pedantic -Werror
-LFLAGS = `sdl-config --libs` -lSDL
-OBJS   = init.o input.o main.o
-PROG   = bomberman	 
-CXX    = gcc
+LFLAGS = `sdl-config --libs` -lSDL -lSDL_image -lSDL_mixer
+OBJS   = draw.o init.o input.o graphics.o main.o player.o
+PROG   = bomberman 
+CXX	   = gcc
 
 # top-level rule to create the program.
 all: $(PROG)
 
 # compiling other source files.
-%.o: src/%.c src/%.h src/defs.h
+%.o: src/%.c src/%.h src/defs.h src/structs.h
 	$(CXX) $(CFLAGS) -c -s $<
 
 # linking the program.

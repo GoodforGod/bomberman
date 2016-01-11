@@ -1,5 +1,7 @@
 #include "init.h"
 
+extern void freeSprites();
+
 void init(char *title)
 {
 	/* Initialise SDL Video */
@@ -11,13 +13,13 @@ void init(char *title)
 		exit(1);
 	}
 	
-	/* Open a 640 x 480 screen */
+	/* Open a screen and initialize audio */
 	
-	screen = SDL_SetVideoMode(640, 480, 0, SDL_HWPALETTE);
+	game.screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, SDL_HWPALETTE|SDL_DOUBLEBUF);
 	
-	if (screen == NULL)
+	if (game.screen == NULL)
 	{
-		printf("Couldn't set screen mode to 640 x 480: %s\n", SDL_GetError());
+		printf("Couldn't set screen mode to %d x %d: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
 
 		exit(1);
 	}
@@ -29,6 +31,10 @@ void init(char *title)
 
 void cleanup()
 {
+	/* Free the sprites */
+	
+	freeSprites();
+	
 	/* Shut down SDL */
 	
 	SDL_Quit();

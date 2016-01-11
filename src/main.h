@@ -1,3 +1,6 @@
-#include "defs.h"
+#include "structs.h"
 
-SDL_Surface *screen;
+Game game;
+Control input;
+Entity player;
+Sprites sprite[MAX_SPRITES];
