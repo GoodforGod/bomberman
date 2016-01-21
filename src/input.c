@@ -13,6 +13,7 @@ void getInput()
 			/*
 			** Closing the Window or pressing Escape will exit the program
 			** Pressing the arrow keys will move the player
+			** Pressing space will fire a bullet
 			*/
 			
 			case SDL_QUIT:
@@ -36,6 +37,10 @@ void getInput()
 						
 					case SDLK_RIGHT:
 						input.right = 1;
+						break;
+						
+					case SDLK_SPACE:
+						input.fire = 1;
 						break;
 					
 					case SDLK_ESCAPE:
@@ -64,6 +69,10 @@ void getInput()
 						
 					case SDLK_RIGHT:
 						input.right = 0;
+						break;
+						
+					case SDLK_SPACE:
+						input.fire = 0;
 						break;
 					
 					default:

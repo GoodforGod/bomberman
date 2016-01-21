@@ -2,5 +2,6 @@
 
 Game game;
 Control input;
-Entity player;
-Sprites sprite[MAX_SPRITES];
+Entity player, *self, entity[MAX_ENTITIES];
+Sprite sprite[MAX_SPRITES];
+Sound sound[MAX_SOUNDS];

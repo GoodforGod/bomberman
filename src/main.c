@@ -8,6 +8,9 @@ extern void initPlayer(void);
 extern void doPlayer(void);
 extern void doEntities(void);
 extern void loadAllSprites(void);
+extern void loadAllSounds(void);
+extern void addEnemy(int, int);
+extern void doCollisions(void);
 extern void delay(unsigned int);
 
 int main(int argc, char *argv[])
@@ -17,7 +20,7 @@ int main(int argc, char *argv[])
 	
 	/* Start up SDL */
 	
-	init("Window Bomberman Init");
+	init("Bomberman Init Window");
 	
 	/* Call the cleanup function when the program exits */
 	
@@ -29,9 +32,22 @@ int main(int argc, char *argv[])
 	
 	loadAllSprites();
 	
+	/* Load all the sounds */
+	
+	loadAllSounds();
+	
 	/* Intialise the player */
 	
 	initPlayer();
+	
+	/* A a bunch of Enemies */
+	
+	addEnemy(740, 50);
+	addEnemy(740, 150);
+	addEnemy(740, 250);
+	addEnemy(740, 350);
+	addEnemy(740, 450);
+	addEnemy(740, 550);
 	
 	/* Loop indefinitely for messages */
 	
@@ -44,6 +60,14 @@ int main(int argc, char *argv[])
 		/* Update the player's position */
 		
 		doPlayer();
+		
+		/* Update the entities */
+		
+		doEntities();
+		
+		/* Do the collisions */
+		
+		doCollisions();
 		
 		/* Draw everything */
 		

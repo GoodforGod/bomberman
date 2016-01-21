@@ -2,21 +2,29 @@
 
 extern int loadSprite(char *);
 extern void drawImage(SDL_Surface *, int, int);
+extern void addBomb(int, int);
 extern SDL_Surface *getSprite(int);
 
 void initPlayer()
 {
 	player.sprite = getSprite(PLAYER_SPRITE);
-	
+	player.active = 1;	
 	player.x = SCREEN_WIDTH / 2;
 	player.y = SCREEN_HEIGHT / 2;
 }
 
 void doPlayer()
 {
+	player.thinkTime--;
+	
+	if (player.thinkTime <= 0)
+	{
+		player.thinkTime = 0;
+	}
+	
 	if (input.up == 1)
 	{
-		player.y -= 3;
+		player.y -= PLAYER_SPEED;
 		
 		/* Don't allow the player to move off the screen */
 		
@@ -28,7 +36,7 @@ void doPlayer()
 	
 	if (input.down == 1)
 	{
-		player.y += 3;
+		player.y += PLAYER_SPEED;
 		
 		/* Don't allow the player to move off the screen */
 		
@@ -40,7 +48,7 @@ void doPlayer()
 	
 	if (input.left == 1)
 	{
-		player.x -= 3;
+		player.x -= PLAYER_SPEED;
 		
 		/* Don't allow the player to move off the screen */
 		
@@ -52,7 +60,7 @@ void doPlayer()
 	
 	if (input.right == 1)
 	{
-		player.x += 3;
+		player.x += PLAYER_SPEED;
 		
 		/* Don't allow the player to move off the screen */
 		
@@ -61,12 +69,26 @@ void doPlayer()
 			player.x = SCREEN_WIDTH - (player.sprite->w + 1);
 		}
 	}
+	
+	if (input.fire == 1)
+	{
+		/* You can only place bomb  when the thinkTime is 0 or less */
+		
+		if (player.thinkTime <= 0)
+		{
+			/* addBomb(player.x + player.sprite->w, player.y + (player.sprite->h / 2)); */
+			addBomb(player.x, player.y);
+
+			player.thinkTime = MAX_RELOAD_TIME;
+		}
+	}
 }
 
 void drawPlayer()
 {
-	/* Draw the image in the player structure */
-	
-	drawImage(player.sprite, player.x, player.y);
+	/* Draw the image in the player structure if active */
+
+	if(player.active == 1)
+		drawImage(player.sprite, player.x, player.y);
 }
 

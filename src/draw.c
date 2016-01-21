@@ -13,6 +13,12 @@ void draw()
 	
 	drawPlayer();
 	
+	/* Draw the entities */
+	
+	drawEntities();
+	
+	/* Update the buffer */
+
 	SDL_Flip(game.screen);
 	
 	/* Sleep briefly */
