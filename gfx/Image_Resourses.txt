@@ -1,5 +1,5 @@
-Resourses from the original game, Bomberman from NES.
+- Resourses from the original game, Bomberman from NES. (Got them from Black Squerlle)
 
-Got them from Black Squerlle.
+- Terrain resouse got from "pixeljoint.com" (Author Doppleganger)
 
 Thanks!

@@ -103,4 +103,11 @@ void loadAllSprites()
 	loadSprite(PLAYER_SPRITE, "gfx/bomberman_idle.png");
 	loadSprite(BOMB_SPRITE, "gfx/bomb_idle.png");
 	loadSprite(ENEMY_SPRITE, "gfx/enemy_blue.png");
+	loadSprite(TERRAIN_SPRITE, "gfx/terrain_grass.png");
+	loadSprite(PLAYER_DEAD_SPRITE, "gfx/bomberman_dead.png");
+	loadSprite(PLAYER_LEFT_SPRITE, "gfx/bomberman_left.png");
+	loadSprite(PLAYER_RIGHT_SPRITE, "gfx/bomberman_right.png");
+	loadSprite(PLAYER_BACK_SPRITE, "gfx/bomberman_back.png");
+	loadSprite(WALL_IDLE_SPRITE, "gfx/wall_idle.png");
+	loadSprite(BRICK_IDLE_SPRITE, "gfx/brick_idle.png");
 }

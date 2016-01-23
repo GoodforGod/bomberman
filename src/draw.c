@@ -2,6 +2,7 @@
 
 extern void drawPlayer(void);
 extern void drawEntities(void);
+extern void drawLevel(void);
 
 void draw()
 {
@@ -9,8 +10,12 @@ void draw()
 	
 	SDL_FillRect(game.screen, NULL, 0);
 	
-	/* Draw the player */
+	/* Draw terrain */
+
+	drawLevel();
 	
+	/* Draw the player */
+
 	drawPlayer();
 	
 	/* Draw the entities */

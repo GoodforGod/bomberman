@@ -12,11 +12,15 @@ extern void loadAllSounds(void);
 extern void addEnemy(int, int);
 extern void doCollisions(void);
 extern void delay(unsigned int);
+extern void drawLevel(void);
+extern int initLevel(void);
+extern void addBrick(int, int);
+extern void addWall(int, int);
 
 int main(int argc, char *argv[])
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
-	int go;
+	int go, terr;
 	
 	/* Start up SDL */
 	
@@ -36,26 +40,34 @@ int main(int argc, char *argv[])
 	
 	loadAllSounds();
 	
-	/* Intialise the player */
+	/* Intialise the player and terrain */
 	
 	initPlayer();
+			
+	terr = initLevel();
 	
-	/* A a bunch of Enemies */
-	
-	addEnemy(740, 50);
-	addEnemy(740, 150);
-	addEnemy(740, 250);
-	addEnemy(740, 350);
+	if(terr == 1)
+		exit(0);
+
+	/* A a bunch of Enemies and Walls*/
+
+	addEnemy(840, 50);
+	addEnemy(840, 150);
+	addEnemy(840, 250);
+	addEnemy(840, 350);
+	addEnemy(840, 450);
 	addEnemy(740, 450);
-	addEnemy(740, 550);
-	
+	addBrick(0, 0);
+	addBrick(64,64);
+	addWall(832,512);
+	addWall(896,576);
 	/* Loop indefinitely for messages */
 	
 	while (go == 1)
 	{
 		/* Get the input */
 		
-		getInput();
+		getInput(); 
 		
 		/* Update the player's position */
 		
@@ -63,7 +75,7 @@ int main(int argc, char *argv[])
 		
 		/* Update the entities */
 		
-		doEntities();
+		doEntities(); 
 		
 		/* Do the collisions */
 		
@@ -71,8 +83,8 @@ int main(int argc, char *argv[])
 		
 		/* Draw everything */
 		
-		draw();
-		
+		draw(); 
+	
 		/* Sleep briefly to stop sucking up all the CPU time */
 		
 		delay(frameLimit);

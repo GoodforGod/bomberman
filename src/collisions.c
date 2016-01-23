@@ -38,10 +38,18 @@ void doCollisions()
 			/* Test the collision */
 			if (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 			{
-				/* If a collision occured, remove both Entities */
-				entity[j].active = 0;
-				entity[i].active = 0;
-				break;
+				if(entity[i].type == TYPE_BOMB && entity[j].type == TYPE_ENEMY)
+				{
+					/* If a collision occured with bomb and enemy, remove both Entities */
+					entity[j].active = 0;
+					entity[i].active = 0;
+					break;
+				}
+				if(entity[i].type == TYPE_BOMB && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK))
+				{
+					entity[i].active = 0;
+					break;
+				}
 			}
 		}
 	}
