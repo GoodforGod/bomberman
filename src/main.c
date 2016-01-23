@@ -18,6 +18,8 @@ extern void addBrick(int, int);
 extern void addWall(int, int);
 extern void loadAllAnimation(void);
 extern void doAnimation(Animation *anim);
+extern void fillLevel(void);
+extern TTF_Font *loadFont(char *, int);
 
 int main(int argc, char *argv[])
 {
@@ -46,6 +48,10 @@ int main(int argc, char *argv[])
 	
 	loadAllSounds();
 	
+	/* Load fonts */
+
+	game.font = loadFont("font/blackWolf.ttf", 16);
+	
 	/* Intialise the player and terrain */
 	
 	initPlayer();
@@ -55,18 +61,10 @@ int main(int argc, char *argv[])
 	if(terr == 1)
 		exit(0);
 
-	/* A a bunch of Enemies and Walls*/
+	/* Fill the level with enemies and other stuff */
 
-	addEnemy(840, 50);
-	addEnemy(840, 150);
-	addEnemy(840, 250);
-	addEnemy(840, 350);
-	addEnemy(840, 450);
-	addEnemy(740, 450);
-	addBrick(0, 0);
-	addBrick(64,64);
-	addWall(832,512);
-	addWall(896,576);
+	fillLevel();
+	
 	/* Loop indefinitely for messages */
 	
 	while (go == 1)
@@ -82,7 +80,11 @@ int main(int argc, char *argv[])
 		/* Update animation frames */
 
 		doAnimation(&bombermanBack);
-		
+		doAnimation(&bombermanFront);
+		doAnimation(&bombermanLeft);
+		doAnimation(&bombermanRight);
+		doAnimation(&bombermanDead);
+
 		/* Update the entities */
 		
 		doEntities(); 

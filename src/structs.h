@@ -2,6 +2,7 @@
 
 typedef struct Game
 {
+	TTF_Font *font;
 	SDL_Surface *screen;
 } Game;
 
@@ -23,7 +24,7 @@ typedef struct Sound
 
 typedef struct Entity
 {
-	int active, type;
+	int active, type, collision;
 	int x, y, thinkTime;
 	SDL_Surface *sprite;
 	void (*action)(void);

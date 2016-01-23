@@ -3,6 +3,7 @@
 extern void freeSprites(void);
 extern void freeSounds(void);
 extern void freeAnimation(Animation *);
+extern void closeFont(TTF_Font *);
 
 void init(char *title)
 {
@@ -14,7 +15,16 @@ void init(char *title)
 		
 		exit(1);
 	}
-	
+
+	/* Initialise SDL_TTF */
+		
+	if (TTF_Init() < 0)
+	{
+		printf("Couldn't initialize SDL TTF: %s\n", SDL_GetError());
+
+		exit(1);
+	}
+
 	/* Open a screen */
 	
 	game.screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, SDL_HWPALETTE|SDL_DOUBLEBUF);
@@ -58,10 +68,18 @@ void cleanup()
 	freeAnimation(&bombermanFront);
 	freeAnimation(&bombermanBack);
 
+	/* Free fonts */
+
+	closeFont(game.font);
+
 	/* Close the mixer */
 	
 	Mix_CloseAudio();
 	
+	/* Close SDL_TTF */
+		
+	TTF_Quit();
+
 	/* Shut down SDL */
 	
 	SDL_Quit();

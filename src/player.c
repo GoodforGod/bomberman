@@ -5,7 +5,6 @@ extern void drawImage(SDL_Surface *, int, int);
 extern void addBomb(int, int);
 extern SDL_Surface *getSprite(int);
 extern void drawAnimation(Animation *, int, int);
-extern void doAnimation(Animation *);
 
 void initPlayer()
 {
@@ -30,8 +29,6 @@ void doPlayer()
 		{
 			player.y -= PLAYER_SPEED;
 			
-			player.sprite = getSprite(PLAYER_BACK_SPRITE);		
-			drawAnimation(&bombermanBack, player.x, player.y);
 			/* Don't allow the player to move off the screen */
 		
 			if (player.y < 0)
@@ -41,8 +38,6 @@ void doPlayer()
 		if (input.down == 1)
 		{
 			player.y += PLAYER_SPEED;
-			
-			player.sprite = getSprite(PLAYER_SPRITE);
 			
 			/* Don't allow the player to move off the screen */
 		
@@ -54,8 +49,6 @@ void doPlayer()
 		{
 			player.x -= PLAYER_SPEED;
 			
-			player.sprite = getSprite(PLAYER_LEFT_SPRITE);	
-			
 			/* Don't allow the player to move off the screen */
 			
 			if (player.x < 0)
@@ -65,8 +58,6 @@ void doPlayer()
 		if (input.right == 1)
 		{
 			player.x += PLAYER_SPEED;
-			
-			player.sprite = getSprite(PLAYER_RIGHT_SPRITE);	
 			
 			/* Don't allow the player to move off the screen */
 			
@@ -92,9 +83,23 @@ void doPlayer()
 
 void drawPlayer()
 {
-	/* Draw the image in the player structure if active */
+	/* static indicator of death, to play death animation only once */
+
+	static int dead = 0;
+	
+	/* Draw the image in the player structure if alive or play death animation */
 
 	if(player.active == 1)
 		drawImage(player.sprite, player.x, player.y);
-	else drawImage(getSprite(PLAYER_DEAD_SPRITE), player.x, player.y);
+	else 
+	{
+		/* Draw animation of death only once and them draw grave */ 
+
+		if(bombermanDead.frameIndex < 0)  
+			dead = 1;
+
+		if(dead == 1)
+			drawImage(getSprite(PLAYER_DEAD_SPRITE), player.x, player.y);
+		else drawAnimation(&bombermanDead, player.x, player.y);
+	}
 }

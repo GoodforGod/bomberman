@@ -4,9 +4,58 @@ extern void drawPlayer(void);
 extern void drawEntities(void);
 extern void drawLevel(void);
 extern void drawAnimation(Animation *, int, int);
+extern void drawString(char *, int, int, TTF_Font *, int, int);
+
+/* Function chooses animation depends on your direction */ 
+
+void chooseAnimation()
+{
+	/* Choose walking animation or death or idle sprite */
+
+	if(player.active == 0)
+	{
+		drawPlayer();	
+		return;
+	}
+
+	if(input.up == 1)
+	{
+		drawAnimation(&bombermanBack, player.x, player.y);
+		return;
+	}
+
+	if(input.down == 1)	
+	{
+		drawAnimation(&bombermanFront, player.x, player.y);
+		return;	
+	}
+
+	if(input.right == 1)	
+	{
+		drawAnimation(&bombermanRight, player.x, player.y);	
+		return;
+	}
+
+	if(input.left == 1)
+	{
+		drawAnimation(&bombermanLeft, player.x, player.y);	
+		return;
+	}
+
+	/* Draw idle sprite due to no direction and as default case */
+
+	drawPlayer();
+
+	return;	
+}
+
 
 void draw()
 {
+	/* Store text to render */
+
+	char text[40];
+	
 	/* Blank the screen */
 	
 	SDL_FillRect(game.screen, NULL, 0);
@@ -15,13 +64,15 @@ void draw()
 
 	drawLevel();
 	
-	/* Draw the player */
-
-	drawPlayer();
-
-	/* Draw animation frames */
-
+	/* Draw the text */
 	
+	sprintf(text, "SCORE: 0");
+	
+	drawString(text, 100, 10, game.font, 1, 0);
+
+	/* Draw player animation */
+
+	chooseAnimation();
 
 	/* Draw the entities */
 	

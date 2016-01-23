@@ -4,6 +4,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_mixer.h"
+#include "SDL/SDL_ttf.h"
 
 #define SCREEN_WIDTH 960 
 #define SCREEN_HEIGHT 640 
@@ -14,7 +15,7 @@
 #define PLAYER_SPEED 3 
 #define BOMB_SPEED 8 
 
-#define ANIM_SPEED 3
+#define ANIM_SPEED 7 
 
 enum
 {
