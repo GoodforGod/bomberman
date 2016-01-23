@@ -13,7 +13,7 @@ void getInput()
 			/*
 			** Closing the Window or pressing Escape will exit the program
 			** Pressing the arrow keys will move the player
-			** Pressing space will fire a bullet
+			** Pressing space will place bomb 
 			*/
 			
 			case SDL_QUIT:

@@ -16,6 +16,8 @@ extern void drawLevel(void);
 extern int initLevel(void);
 extern void addBrick(int, int);
 extern void addWall(int, int);
+extern void loadAllAnimation(void);
+extern void doAnimation(Animation *anim);
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +37,11 @@ int main(int argc, char *argv[])
 	/* Load all the sprites */
 	
 	loadAllSprites();
+
+	/* Load all Animation */
 	
+	loadAllAnimation(); 
+
 	/* Load all the sounds */
 	
 	loadAllSounds();
@@ -72,6 +78,10 @@ int main(int argc, char *argv[])
 		/* Update the player's position */
 		
 		doPlayer();
+		
+		/* Update animation frames */
+
+		doAnimation(&bombermanBack);
 		
 		/* Update the entities */
 		

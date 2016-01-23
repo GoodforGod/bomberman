@@ -2,6 +2,7 @@
 
 extern void freeSprites(void);
 extern void freeSounds(void);
+extern void freeAnimation(Animation *);
 
 void init(char *title)
 {
@@ -48,7 +49,15 @@ void cleanup()
 	/* Free the sounds */
 	
 	freeSounds();
-	
+
+	/* Free all animations */
+
+	freeAnimation(&bombermanDead);
+	freeAnimation(&bombermanLeft);
+	freeAnimation(&bombermanRight);
+	freeAnimation(&bombermanFront);
+	freeAnimation(&bombermanBack);
+
 	/* Close the mixer */
 	
 	Mix_CloseAudio();

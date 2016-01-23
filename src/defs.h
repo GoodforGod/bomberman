@@ -14,6 +14,8 @@
 #define PLAYER_SPEED 3 
 #define BOMB_SPEED 8 
 
+#define ANIM_SPEED 3
+
 enum
 {
 	PLAYER_SPRITE,

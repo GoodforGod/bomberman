@@ -3,6 +3,7 @@
 extern void drawPlayer(void);
 extern void drawEntities(void);
 extern void drawLevel(void);
+extern void drawAnimation(Animation *, int, int);
 
 void draw()
 {
@@ -17,7 +18,11 @@ void draw()
 	/* Draw the player */
 
 	drawPlayer();
+
+	/* Draw animation frames */
+
 	
+
 	/* Draw the entities */
 	
 	drawEntities();

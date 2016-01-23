@@ -10,6 +10,12 @@ typedef struct Sprite
 	SDL_Surface *image;
 } Sprite;
 
+typedef struct Animation
+{
+	int frameCount, frameIndex, counter;
+	SDL_Surface **frame;
+} Animation;
+
 typedef struct Sound
 {
 	Mix_Chunk *effect;
