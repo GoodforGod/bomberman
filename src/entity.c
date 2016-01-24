@@ -1,6 +1,8 @@
 #include "entity.h"
 
 extern void drawImage(SDL_Surface *, int, int);
+extern void drawAnimation(Animation *, int, int);
+extern void doSpeedAnimation(Animation *, int);
 
 void clearEntities()
 {
@@ -71,6 +73,21 @@ void drawEntities()
 	}
 }
 
+void drawAnimationEntity()
+{
+	switch(self->type)
+	{
+	
+		case TYPE_ENEMY:
+			doSpeedAnimation(&enemyBlueLeft, 9);
+			drawAnimation(&enemyBlueLeft, self->x, self->y);
+			break;
+		case TYPE_BOMB:
+			doSpeedAnimation(&bombAnimation, 9);
+			drawAnimation(&bombAnimation, self->x, self->y);
+
+	}
+}
 void drawStandardEntity()
 {
 	drawImage(self->sprite, self->x, self->y);

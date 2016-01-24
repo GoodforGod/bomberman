@@ -1,7 +1,7 @@
 #include "enemy.h"
 
 extern int getFreeEntity(void);
-extern void drawStandardEntity(void);
+extern void drawAnimationEntity(void);
 extern SDL_Surface *getSprite(int);
 
 static void moveEnemy(void);
@@ -20,12 +20,12 @@ void addEnemy(int x, int y)
 	entity[i].x = x;
 	entity[i].y = y;
 	entity[i].action = &moveEnemy;
-	entity[i].draw = &drawStandardEntity;
-	entity[i].sprite = getSprite(ENEMY_SPRITE);
+	entity[i].draw = &drawAnimationEntity;
+	entity[i].sprite = getSprite(ENEMY_BLUE_IDLE_SPRITE);
 	entity[i].type = TYPE_ENEMY;
 }
 
 static void moveEnemy(void)
 {
-	/* Do nothing, just sit there */
+
 }

@@ -25,7 +25,7 @@ typedef struct Sound
 typedef struct Entity
 {
 	int active, type, collision;
-	int x, y, thinkTime;
+	int x, y, thinkTime, prev_x, prev_y;
 	SDL_Surface *sprite;
 	void (*action)(void);
 	void (*draw)(void);

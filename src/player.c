@@ -5,88 +5,109 @@ extern void drawImage(SDL_Surface *, int, int);
 extern void addBomb(int, int);
 extern SDL_Surface *getSprite(int);
 extern void drawAnimation(Animation *, int, int);
+extern void doSpeedAnimation(Animation *, int);
+extern void playSound(int);
 
 void initPlayer()
 {
 	player.sprite = getSprite(PLAYER_SPRITE);
 	player.active = 1;	
-	player.x = SCREEN_WIDTH / 2;
-	player.y = SCREEN_HEIGHT / 2;
+	player.x = 20;
+	player.y = SCREEN_HEIGHT/2 - 12;
 }
 
 void doPlayer()
 {
+	int bomb_x, bomb_y;
 	/* Only if player not dead then act */
 
 	if(player.active == 1)
 	{
+		/* Remember prev coordinates, to go back if hit wall or brick */
+
+		player.prev_x = player.x;
+		player.prev_y = player.y;
+		
 		player.thinkTime--;
 	
 		if (player.thinkTime <= 0)
 			player.thinkTime = 0;
 	
+		if (input.fire == 1)
+		{
+			/* You can only place bomb  when the thinkTime is 0 or less */
+			
+			if (player.thinkTime <= 0)
+			{
+				/* Trying to place bomb in the nearest possition */
+
+				bomb_x = player.x % 64 - 8;
+				bomb_y = player.y % 32;
+				
+				if(bomb_x < 32)
+				{
+					if(bomb_y < 32)
+						addBomb(player.x - bomb_x, player.y - bomb_y);
+					else 
+						addBomb(player.x - bomb_x, player.y + (64 - bomb_y));
+				}
+				else 
+				{
+					if(bomb_y < 32)
+						addBomb(player.x + (64 - bomb_x), player.y - bomb_y);
+					else 
+						addBomb(player.x + (64 - bomb_x), player.y + (64 - bomb_y));
+				}
+				player.thinkTime = MAX_RELOAD_TIME;
+			}
+		}
+		
 		if (input.up == 1)
 		{
 			player.y -= PLAYER_SPEED;
-			
 			/* Don't allow the player to move off the screen */
 		
-			if (player.y < 0)
-				player.y = 0;
+			if (player.y < 26)
+				player.y = player.prev_y;
+			return;
 		}
 	
 		if (input.down == 1)
 		{
 			player.y += PLAYER_SPEED;
-			
 			/* Don't allow the player to move off the screen */
 		
-			if (player.y + player.sprite->h >= SCREEN_HEIGHT)
-				player.y = SCREEN_HEIGHT - (player.sprite->h + 1);
+			if (player.y + player.sprite->h >= SCREEN_HEIGHT-22)
+				player.y = player.prev_y;
+			/*	player.y = SCREEN_HEIGHT - (player.sprite->h + 1); */
+			return;
 		}
 	
 		if (input.left == 1)
 		{
 			player.x -= PLAYER_SPEED;
-			
 			/* Don't allow the player to move off the screen */
 			
-			if (player.x < 0)
-				player.x = 0;
+			if (player.x < 20)
+				player.x = player.prev_x;
+			return;
 		}
 	
 		if (input.right == 1)
 		{
 			player.x += PLAYER_SPEED;
-			
 			/* Don't allow the player to move off the screen */
 			
-			if (player.x + player.sprite->w >= SCREEN_WIDTH)
-				player.x = SCREEN_WIDTH - (player.sprite->w + 1);
-		}
-	
-		if (input.fire == 1)
-		{
-			/* You can only place bomb  when the thinkTime is 0 or less */
-		
-			if (player.thinkTime <= 0)
-			{
-				/* addBomb(player.x + player.sprite->w, player.y + (player.sprite->h / 2)); */
-				
-				addBomb(player.x, player.y);
-
-				player.thinkTime = MAX_RELOAD_TIME;
-			}
+			if (player.x + player.sprite->w >= SCREEN_WIDTH-20)
+				player.x = player.prev_x;
+				/* player.x = SCREEN_WIDTH - (player.sprite->w + 1); */
+			return;
 		}
 	}
 }
 
 void drawPlayer()
 {
-	/* static indicator of death, to play death animation only once */
-
-	static int dead = 0;
-	
 	/* Draw the image in the player structure if alive or play death animation */
 
 	if(player.active == 1)
@@ -94,12 +115,12 @@ void drawPlayer()
 	else 
 	{
 		/* Draw animation of death only once and them draw grave */ 
-
-		if(bombermanDead.frameIndex < 0)  
-			dead = 1;
-
-		if(dead == 1)
-			drawImage(getSprite(PLAYER_DEAD_SPRITE), player.x, player.y);
-		else drawAnimation(&bombermanDead, player.x, player.y);
+		
+		if(bombermanDead.frameIndex != 5)
+		{
+			doSpeedAnimation(&bombermanDead, 9);
+			drawAnimation(&bombermanDead, player.x, player.y);
+		}
+		else drawImage(getSprite(PLAYER_DEAD_SPRITE), player.x, player.y);
 	}
 }

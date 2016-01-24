@@ -101,16 +101,10 @@ void freeSprites()
 void loadAllSprites()
 {
 	loadSprite(PLAYER_SPRITE, "gfx/bomberman_idle.png");
-	loadSprite(BOMB_SPRITE, "gfx/bomb_idle.png");
-	loadSprite(ENEMY_SPRITE, "gfx/enemy_blue.png");
-	loadSprite(TERRAIN_SPRITE, "gfx/terrain_grass.png");
+	loadSprite(BOMB_SPRITE, "gfx/bomb/bomb_idle_1.png");
+	loadSprite(ENEMY_BLUE_IDLE_SPRITE, "gfx/enemy_blue/enemy_blue_left_1.png");
+	loadSprite(TERRAIN_SPRITE, "gfx/terrain_grass_with_wall.png");
 	loadSprite(PLAYER_DEAD_SPRITE, "gfx/bomberman_grave.png");
-
-	/* Useless, due to animation set up 
-	loadSprite(PLAYER_LEFT_SPRITE, "gfx/bomberman_left.png");
-	loadSprite(PLAYER_RIGHT_SPRITE, "gfx/bomberman_right.png");
-	loadSprite(PLAYER_BACK_SPRITE, "gfx/bomberman_back.png");
-	*/
-	loadSprite(WALL_IDLE_SPRITE, "gfx/wall_idle.png");
+	loadSprite(WALL_IDLE_SPRITE, "gfx/wall/wall_idle.png");
 	loadSprite(BRICK_IDLE_SPRITE, "gfx/brick_idle.png");
 }

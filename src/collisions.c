@@ -18,13 +18,22 @@ void doCollisions()
 		if (entity[i].active == 0)
 			continue;
 	
-		/* Test player collision */
+		/* Test player collision with enemy */
 	
 		if (entity[i].type == TYPE_ENEMY && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, player.x, player.y, player.sprite->w, player.sprite->h) == 1))
 		{
 			entity[i].active = 0;
 			player.active = 0;
 			playSound(DEAD_SOUND);
+			break;
+		}	
+		
+		/* Test player collision with wall and brick */
+
+		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-12, entity[i].sprite->h-5, player.x, player.y, player.sprite->w-12, player.sprite->h-5) == 1))
+		{
+			player.x = player.prev_x;
+			player.y = player.prev_y;
 			break;
 		}
 

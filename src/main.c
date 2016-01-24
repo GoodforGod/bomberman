@@ -17,9 +17,11 @@ extern int initLevel(void);
 extern void addBrick(int, int);
 extern void addWall(int, int);
 extern void loadAllAnimation(void);
-extern void doAnimation(Animation *anim);
+extern void doAnimation(Animation *);
 extern void fillLevel(void);
 extern TTF_Font *loadFont(char *, int);
+extern void playSoundTimes(int, int);
+extern void playSound(int);
 
 int main(int argc, char *argv[])
 {
@@ -55,16 +57,24 @@ int main(int argc, char *argv[])
 	/* Intialise the player and terrain */
 	
 	initPlayer();
-			
+	
 	terr = initLevel();
 	
 	if(terr == 1)
 		exit(0);
 
+	/* Play start sound */
+
+	playSound(PLAYER_START_SOUND);
+
 	/* Fill the level with enemies and other stuff */
 
 	fillLevel();
 	
+	/* Plays background music */
+
+	playSoundTimes(BACKGROUND_NORMAL_SOUND, -1);
+
 	/* Loop indefinitely for messages */
 	
 	while (go == 1)
@@ -83,7 +93,6 @@ int main(int argc, char *argv[])
 		doAnimation(&bombermanFront);
 		doAnimation(&bombermanLeft);
 		doAnimation(&bombermanRight);
-		doAnimation(&bombermanDead);
 
 		/* Update the entities */
 		

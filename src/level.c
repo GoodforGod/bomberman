@@ -18,20 +18,24 @@ int initLevel()
 
 void fillLevel()
 {
-	addEnemy(840, 50);
-	addEnemy(840, 150);
-	addEnemy(840, 250);
-	addEnemy(840, 350);
-	addEnemy(840, 450);
-	addEnemy(740, 450);
-	addBrick(0, 0);
-	addBrick(64,64);
-	addWall(832,512);
-	addWall(896,576);
+	/* posicion with indent to build bricks on level */
 
+	int i = SCREEN_WIDTH-154, j = SCREEN_HEIGHT-148;
+	
+	/* Fill level depending on SCREEN_WIDTH ,SCREEN_HEIGHT */
+
+	for(;i>0;i-=128)
+	{
+		for(;j>0;j-=128)
+			addBrick(i,j);
+		
+		j = SCREEN_HEIGHT-148;
+	}
+
+	addEnemy(SCREEN_WIDTH-104, SCREEN_HEIGHT-94);
 }
 
 void drawLevel()
 {
-	drawImage(terrainImage, 0, 0);	
+	drawImage(terrainImage, 0, 24);	
 }

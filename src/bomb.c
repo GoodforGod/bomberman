@@ -4,6 +4,7 @@ extern int getFreeEntity(void);
 extern void drawStandardEntity(void);
 extern SDL_Surface *getSprite(int);
 extern void playSound(int);
+extern void drawAnimationEntity(void);
 
 static void moveStandardBomb(void);
 
@@ -21,7 +22,7 @@ void addBomb(int x, int y)
 	entity[i].x = x;
 	entity[i].y = y;
 	entity[i].action = &moveStandardBomb;
-	entity[i].draw = &drawStandardEntity;
+	entity[i].draw = &drawAnimationEntity;
 	entity[i].sprite = getSprite(BOMB_SPRITE);
 	entity[i].type = TYPE_BOMB;
 	

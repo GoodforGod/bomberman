@@ -35,10 +35,28 @@ void playSound(index)
 	Mix_PlayChannel(-1, sound[index].effect, 0);
 }
 
+void playSoundTimes(int index, int repeatTimes)
+{
+	/* Play the sound on the first free channel and only play it once */
+	
+	if (index < 0 || index >= MAX_SOUNDS)
+	{
+		printf("Invalid index for sound! Index: %d Maximum: %d\n", index, MAX_SOUNDS);
+		
+		exit(1);
+	}
+	
+	Mix_PlayChannel(-1, sound[index].effect, repeatTimes);
+}
+
 void loadAllSounds()
 {
 	loadSound(BOMB_SOUND, "sound/bomb_small_explode.ogg");
-	loadSound(DEAD_SOUND, "sound/player_dead.ogg");
+	loadSound(DEAD_SOUND, "sound/player_gameover.ogg");
+	loadSound(PLAYER_WALK_SOUND, "sound/player_walk.ogg");
+	loadSound(ENEMY_JUMP_SOUND, "sound/enemy_jump.ogg");
+	loadSound(BACKGROUND_NORMAL_SOUND, "sound/game_background.ogg");
+	loadSound(PLAYER_START_SOUND, "sound/player_start.ogg");
 }
 
 void freeSounds()

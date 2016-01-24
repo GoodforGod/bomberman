@@ -81,6 +81,23 @@ void freeAnimation(Animation *anim)
 	}
 }
 
+void doSpeedAnimation(Animation *anim, int animSpeed)
+{
+	anim->counter--;
+	
+	if (anim->counter <= 0)
+	{
+		anim->frameIndex++;
+		
+		if (anim->frameIndex == anim->frameCount)
+		{
+			anim->frameIndex = 0;
+		}
+		
+		anim->counter = animSpeed;
+	}
+}
+
 void doAnimation(Animation *anim)
 {
 	anim->counter--;
@@ -105,6 +122,10 @@ void loadAllAnimation()
 	loadAnimation("data/bomberman_left.dat", &bombermanLeft);
 	loadAnimation("data/bomberman_right.dat", &bombermanRight);
 	loadAnimation("data/bomberman_dead.dat", &bombermanDead);
+	loadAnimation("data/bomberman_cool.dat", &bombermanCool);
+	loadAnimation("data/enemyBlue_left.dat", &enemyBlueLeft);
+	loadAnimation("data/enemyBlue_right.dat", &enemyBlueRight);
+	loadAnimation("data/bomb_ready.dat", &bombAnimation);
 }
 
 void drawAnimation(Animation *anim, int x, int y)
