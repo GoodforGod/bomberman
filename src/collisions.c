@@ -45,18 +45,30 @@ void doCollisions()
 				continue;
 			
 			/* Test the collision */
+			
+			
+			if (entity[i].type == TYPE_ENEMY && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 0))
+			{
+				entity[i].x++;
+				entity[i].y++;
+				break;
+			}
+			
 			if (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 			{
 				if(entity[i].type == TYPE_BOMB && entity[j].type == TYPE_ENEMY)
 				{
-					/* If a collision occured with bomb and enemy, remove both Entities */
+					/* If a collision occured with bomb and enemy, remove both entities */
+					
 					entity[j].active = 0;
 					entity[i].active = 0;
 					break;
 				}
+				
 				if(entity[i].type == TYPE_BOMB && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK))
 				{
 					entity[i].active = 0;
+					player.bomb = 0;
 					break;
 				}
 			}

@@ -60,8 +60,9 @@ void draw()
 {
 	/* Store text to render */
 
-	char text[40];
-	
+	char text_timer[40];
+	char text_score[40];
+
 	/* Blank the screen */
 	
 	SDL_FillRect(game.screen, NULL, 0);
@@ -72,9 +73,13 @@ void draw()
 	
 	/* Draw the text */
 	
-	sprintf(text, "SCORE: 0");
+	sprintf(text_score, "SCORE: %d", game.score);
 	
-	drawString(text, 0, 0, game.font, 1, 0);
+	drawString(text_score, 450, 0, game.font, 200, 0);
+	
+	sprintf(text_timer, "TIME: %lu", game.timer);
+	
+	drawString(text_timer, 150, 0, game.font, 100, 0);
 
 	/* Draw player animation */
 

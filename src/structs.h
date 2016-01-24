@@ -4,6 +4,8 @@ typedef struct Game
 {
 	TTF_Font *font;
 	SDL_Surface *screen;
+	unsigned long timer;
+	unsigned int score;
 } Game;
 
 typedef struct Sprite
@@ -24,7 +26,8 @@ typedef struct Sound
 
 typedef struct Entity
 {
-	int active, type, collision;
+	int active, type, bomb;
+	unsigned long timer;
 	int x, y, thinkTime, prev_x, prev_y;
 	SDL_Surface *sprite;
 	void (*action)(void);

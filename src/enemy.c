@@ -3,6 +3,7 @@
 extern int getFreeEntity(void);
 extern void drawAnimationEntity(void);
 extern SDL_Surface *getSprite(int);
+extern int collision(int, int, int, int, int, int, int, int);
 
 static void moveEnemy(void);
 
@@ -27,5 +28,9 @@ void addEnemy(int x, int y)
 
 static void moveEnemy(void)
 {
+	if (self->x >= SCREEN_WIDTH || self->x <= SCREEN_WIDTH)
+		self->active = 0;
 
+	if(self->y >= SCREEN_HEIGHT || self->y <= SCREEN_HEIGHT)
+		self->active = 0;
 }

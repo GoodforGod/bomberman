@@ -47,6 +47,8 @@ void init(char *title)
 	
 	/* Set the screen title */
 	
+	game.score = 0;
+
 	SDL_WM_SetCaption(title, NULL);
 }
 

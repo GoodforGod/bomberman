@@ -27,10 +27,11 @@ int main(int argc, char *argv[])
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go, terr;
-	
+	unsigned long timer;
+
 	/* Start up SDL */
 	
-	init("Bomberman Init Window");
+	init("(☞ﾟヮﾟ)☞  Bomberman  ☜(ﾟヮﾟ☜)           (ಠ_ರ)");
 	
 	/* Call the cleanup function when the program exits */
 	
@@ -77,6 +78,8 @@ int main(int argc, char *argv[])
 
 	/* Loop indefinitely for messages */
 	
+	timer = SDL_GetTicks();
+
 	while (go == 1)
 	{
 		/* Get the input */
@@ -108,6 +111,8 @@ int main(int argc, char *argv[])
 	
 		/* Sleep briefly to stop sucking up all the CPU time */
 		
+		game.timer = (SDL_GetTicks() - timer) / 1000;
+
 		delay(frameLimit);
 		
 		frameLimit = SDL_GetTicks() + 16;

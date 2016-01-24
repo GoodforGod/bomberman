@@ -15,7 +15,6 @@ void addBomb(int x, int y)
 	if (i == -1)
 	{
 		printf("Couldn't get a free slot for a bomb!\n");
-		
 		return;
 	}
 	
@@ -25,22 +24,23 @@ void addBomb(int x, int y)
 	entity[i].draw = &drawAnimationEntity;
 	entity[i].sprite = getSprite(BOMB_SPRITE);
 	entity[i].type = TYPE_BOMB;
-	
-	/* Play a sound when the bomb is placed */
-	
-	playSound(BOMB_SOUND);
+	entity[i].timer = SDL_GetTicks();	
 }
 
 static void moveStandardBomb()
 {
-	/* Move the bomb across the screen for test reasons*/
+	/* Kill the bomb if it moves off the screen or time is out and play sound */
 	
-	self->x += BOMB_SPEED;
-	
-	/* Kill the bomb if it moves off the screen */
-	
+	if(SDL_GetTicks() - self->timer >= 2800)
+	{
+		self->active = 0;
+		player.bomb = 0;
+		playSound(BOMB_SOUND);
+}
 	if (self->x >= SCREEN_WIDTH)
 	{
 		self->active = 0;
+		player.bomb = 0;
+		playSound(BOMB_SOUND);
 	}
 }

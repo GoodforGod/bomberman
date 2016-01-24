@@ -12,8 +12,9 @@ void initPlayer()
 {
 	player.sprite = getSprite(PLAYER_SPRITE);
 	player.active = 1;	
-	player.x = 20;
-	player.y = SCREEN_HEIGHT/2 - 12;
+	player.x = 30;
+	player.y = SCREEN_HEIGHT/2 - 24;
+	player.bomb = 0;
 }
 
 void doPlayer()
@@ -33,7 +34,7 @@ void doPlayer()
 		if (player.thinkTime <= 0)
 			player.thinkTime = 0;
 	
-		if (input.fire == 1)
+		if (input.fire == 1 && player.bomb == 0)
 		{
 			/* You can only place bomb  when the thinkTime is 0 or less */
 			
@@ -59,6 +60,7 @@ void doPlayer()
 						addBomb(player.x + (64 - bomb_x), player.y + (64 - bomb_y));
 				}
 				player.thinkTime = MAX_RELOAD_TIME;
+				player.bomb = 1;
 			}
 		}
 		
