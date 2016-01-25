@@ -4,7 +4,7 @@ extern int loadSprite(char *);
 extern void drawImage(SDL_Surface *, int, int);
 extern SDL_Surface *getSprite(int);
 extern void addEnemy(int, int);
-extern void addBrick(int, int);
+extern void addBrick(int, int, int);
 extern void addWall(int, int);
 
 int initLevel()
@@ -27,12 +27,14 @@ void fillLevel()
 	for(;i>0;i-=128)
 	{
 		for(;j>0;j-=128)
-			addBrick(i,j);
-		
+		{
+			addBrick(i, j, TYPE_BRICK); 
+		}
 		j = SCREEN_HEIGHT-148;
 	}
-
-	addEnemy(SCREEN_WIDTH-104, SCREEN_HEIGHT-94);
+	addWall(SCREEN_WIDTH-218, SCREEN_HEIGHT-218);
+	addBrick(SCREEN_WIDTH-218, SCREEN_HEIGHT-154, TYPE_BONUS_AMMO);
+	addEnemy(SCREEN_WIDTH-288, SCREEN_HEIGHT-214);
 }
 
 void drawLevel()

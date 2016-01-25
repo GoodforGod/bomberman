@@ -1,3 +1,4 @@
 #include "structs.h"
 
-extern Entity entity[MAX_ENTITIES];
+extern Animation wallAnimation;
+extern Entity *self, entity[MAX_ENTITIES];

@@ -1,11 +1,11 @@
 #include "bomb.h"
 
 extern int getFreeEntity(void);
-extern void drawStandardEntity(void);
 extern SDL_Surface *getSprite(int);
 extern void playSound(int);
 extern void drawAnimationEntity(void);
-
+extern void addFire(int, int, int);
+extern int collision(int, int, int, int, int, int, int, int);
 static void moveStandardBomb(void);
 
 void addBomb(int x, int y)
@@ -27,20 +27,28 @@ void addBomb(int x, int y)
 	entity[i].timer = SDL_GetTicks();	
 }
 
+
+
 static void moveStandardBomb()
 {
-	/* Kill the bomb if it moves off the screen or time is out and play sound */
+	/* Kill the bomb if it moves off the screen or time is out and play sound and add fire */
 	
 	if(SDL_GetTicks() - self->timer >= 2800)
 	{
 		self->active = 0;
-		player.bomb = 0;
+		player.bomb++;
+		addFire(self->x, self->y, TYPE_FIRE_CENTER);
+		addFire(self->x, self->y-64, TYPE_FIRE_FRONT);
+		addFire(self->x+64, self->y, TYPE_FIRE_RIGHT);
+		addFire(self->x, self->y+64, TYPE_FIRE_BACK);
+		addFire(self->x-64, self->y, TYPE_FIRE_LEFT); 
 		playSound(BOMB_SOUND);
-}
+	}
+	
 	if (self->x >= SCREEN_WIDTH)
 	{
 		self->active = 0;
-		player.bomb = 0;
+		player.bomb++;
 		playSound(BOMB_SOUND);
 	}
 }

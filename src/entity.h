@@ -1,4 +1,4 @@
 #include "structs.h"
 
-extern Animation enemyBlueLeft, enemyBlueRight, bombAnimation;
+extern Animation wallAnimation, enemyBlueLeft, enemyBlueRight, bombAnimation, fireFrontAnimation, fireRightAnimation, fireBackAnimation, fireLeftAnimation, fireCenterAnimation;
 extern Entity *self, entity[MAX_ENTITIES];

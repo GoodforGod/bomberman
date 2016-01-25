@@ -14,7 +14,7 @@ void initPlayer()
 	player.active = 1;	
 	player.x = 30;
 	player.y = SCREEN_HEIGHT/2 - 24;
-	player.bomb = 0;
+	player.bomb = 1;
 }
 
 void doPlayer()
@@ -29,39 +29,30 @@ void doPlayer()
 		player.prev_x = player.x;
 		player.prev_y = player.y;
 		
-		player.thinkTime--;
-	
-		if (player.thinkTime <= 0)
-			player.thinkTime = 0;
-	
-		if (input.fire == 1 && player.bomb == 0)
+		if (input.fire == 1 && player.bomb >= 0)
 		{
-			/* You can only place bomb  when the thinkTime is 0 or less */
+			/* You can only place bomb when the bomb flag is 1 or more */
 			
-			if (player.thinkTime <= 0)
-			{
-				/* Trying to place bomb in the nearest possition */
+			/* Trying to place bomb in the nearest possition */
 
-				bomb_x = player.x % 64 - 8;
-				bomb_y = player.y % 32;
+			bomb_x = player.x % 64 - 30;
+			bomb_y = player.y % 64 - 34;
 				
-				if(bomb_x < 32)
-				{
-					if(bomb_y < 32)
-						addBomb(player.x - bomb_x, player.y - bomb_y);
-					else 
-						addBomb(player.x - bomb_x, player.y + (64 - bomb_y));
-				}
+			if(bomb_x < 32)
+			{
+				if(bomb_y < 32)
+					addBomb(player.x - bomb_x, player.y - bomb_y);
 				else 
-				{
-					if(bomb_y < 32)
-						addBomb(player.x + (64 - bomb_x), player.y - bomb_y);
-					else 
-						addBomb(player.x + (64 - bomb_x), player.y + (64 - bomb_y));
-				}
-				player.thinkTime = MAX_RELOAD_TIME;
-				player.bomb = 1;
+					addBomb(player.x - bomb_x, player.y + (64 - bomb_y));
 			}
+			else 
+			{
+				if(bomb_y < 32)
+					addBomb(player.x + (64 - bomb_x), player.y - bomb_y);
+				else 
+					addBomb(player.x + (64 - bomb_x), player.y + (64 - bomb_y));
+			}
+			player.bomb--;
 		}
 		
 		if (input.up == 1)

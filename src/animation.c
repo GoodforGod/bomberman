@@ -126,6 +126,12 @@ void loadAllAnimation()
 	loadAnimation("data/enemyBlue_left.dat", &enemyBlueLeft);
 	loadAnimation("data/enemyBlue_right.dat", &enemyBlueRight);
 	loadAnimation("data/bomb_ready.dat", &bombAnimation);
+	loadAnimation("data/fire_center.dat", &fireCenterAnimation);
+	loadAnimation("data/fire_front.dat", &fireFrontAnimation);
+	loadAnimation("data/fire_left.dat", &fireLeftAnimation);
+	loadAnimation("data/fire_right.dat", &fireRightAnimation);
+	loadAnimation("data/fire_back.dat", &fireBackAnimation);
+	loadAnimation("data/wall_dead.dat", &wallAnimation);
 }
 
 void drawAnimation(Animation *anim, int x, int y)

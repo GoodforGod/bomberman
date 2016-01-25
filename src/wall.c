@@ -3,8 +3,11 @@
 extern int getFreeEntity(void);
 extern void drawStandardEntity(void);
 extern SDL_Surface *getSprite(int);
+extern void drawAnimationEntity(void);
 
 static void doWall(void);
+
+/* All works like bomb module */
 
 void addWall(int x, int y)
 {
@@ -23,9 +26,20 @@ void addWall(int x, int y)
 	entity[i].draw = &drawStandardEntity;
 	entity[i].sprite = getSprite(WALL_IDLE_SPRITE);
 	entity[i].type = TYPE_WALL;
+	entity[i].bomb = 0;
 }
 
 static void doWall(void)
 {
+	/* If wall was hit by fire then start its destruction */
 
+	if(self->bomb == 1)
+	{
+		self->draw = &drawAnimationEntity;
+	}
+	
+	/* If animation done, then free wall */
+
+	if(wallAnimation.frameIndex == 6)
+		self->active = 0;
 }

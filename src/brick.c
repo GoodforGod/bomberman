@@ -6,7 +6,7 @@ extern SDL_Surface *getSprite(int);
 
 static void doBrick(void);
 
-void addBrick(int x, int y)
+void addBrick(int x, int y, int setType)
 {
 	int i = getFreeEntity();
 	
@@ -21,8 +21,16 @@ void addBrick(int x, int y)
 	entity[i].y = y;
 	entity[i].action = &doBrick;
 	entity[i].draw = &drawStandardEntity;
-	entity[i].sprite = getSprite(BRICK_IDLE_SPRITE);
-	entity[i].type = TYPE_BRICK;
+	switch(setType)
+	{
+		case TYPE_BRICK:
+			entity[i].sprite = getSprite(BRICK_IDLE_SPRITE);
+			break;
+		case TYPE_BONUS_AMMO:
+			entity[i].sprite = getSprite(BONUS_AMMO_SPRITE);
+			break;
+	}
+	entity[i].type = setType;
 }
 
 static void doBrick(void)

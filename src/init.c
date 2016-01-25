@@ -69,6 +69,14 @@ void cleanup()
 	freeAnimation(&bombermanRight);
 	freeAnimation(&bombermanFront);
 	freeAnimation(&bombermanBack);
+	freeAnimation(&enemyBlueLeft);
+	freeAnimation(&enemyBlueRight);
+	freeAnimation(&bombAnimation);
+	freeAnimation(&fireFrontAnimation);
+	freeAnimation(&fireRightAnimation);
+	freeAnimation(&fireBackAnimation);
+	freeAnimation(&fireLeftAnimation);
+	freeAnimation(&fireCenterAnimation);
 
 	/* Free fonts */
 

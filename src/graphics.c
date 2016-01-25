@@ -107,4 +107,6 @@ void loadAllSprites()
 	loadSprite(PLAYER_DEAD_SPRITE, "gfx/bomberman_grave.png");
 	loadSprite(WALL_IDLE_SPRITE, "gfx/wall/wall_idle.png");
 	loadSprite(BRICK_IDLE_SPRITE, "gfx/brick_idle.png");
+	loadSprite(FIRE_SPRITE, "gfx/fire.png");
+	loadSprite(BONUS_AMMO_SPRITE, "gfx/bonus_ammo.png");
 }

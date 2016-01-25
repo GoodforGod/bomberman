@@ -28,7 +28,7 @@ typedef struct Entity
 {
 	int active, type, bomb;
 	unsigned long timer;
-	int x, y, thinkTime, prev_x, prev_y;
+	int x, y, prev_x, prev_y, up, down, left, right, center;
 	SDL_Surface *sprite;
 	void (*action)(void);
 	void (*draw)(void);

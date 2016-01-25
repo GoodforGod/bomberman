@@ -3,6 +3,7 @@
 extern void playSound(int);
 
 int collision(int, int, int, int, int, int, int, int);
+extern void checkAiCollision(int, int);
 
 void doCollisions()
 {
@@ -22,7 +23,6 @@ void doCollisions()
 	
 		if (entity[i].type == TYPE_ENEMY && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, player.x, player.y, player.sprite->w, player.sprite->h) == 1))
 		{
-			entity[i].active = 0;
 			player.active = 0;
 			playSound(DEAD_SOUND);
 			break;
@@ -30,12 +30,27 @@ void doCollisions()
 		
 		/* Test player collision with wall and brick */
 
-		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-12, entity[i].sprite->h-5, player.x, player.y, player.sprite->w-12, player.sprite->h-5) == 1))
+		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK || entity[i].type == TYPE_BONUS_AMMO) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-12, entity[i].sprite->h-5, player.x, player.y, player.sprite->w-12, player.sprite->h-5) == 1))
 		{
+			if(entity[i].type == TYPE_BONUS_AMMO)
+			{
+				player.bomb++;
+				entity[i].active = 0;
+			}
 			player.x = player.prev_x;
 			player.y = player.prev_y;
 			break;
 		}
+
+		/* Test player collision with fire, kill if occued */
+		
+		if ((entity[i].type == TYPE_FIRE_CENTER || entity[i].type == TYPE_FIRE_FRONT || entity[i].type == TYPE_FIRE_RIGHT || entity[i].type == TYPE_FIRE_LEFT || entity[i].type == TYPE_FIRE_BACK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, player.x, player.y, player.sprite->w-4, player.sprite->h-4) == 1))
+			{
+				entity[i].active = 0;
+				player.active = 0;
+				playSound(DEAD_SOUND);
+				break;
+			}
 
 		for (j=0;j<MAX_ENTITIES;j++)
 		{
@@ -44,33 +59,42 @@ void doCollisions()
 			if (i == j || entity[j].active == 0 || entity[j].type == entity[i].type)
 				continue;
 			
-			/* Test the collision */
-			
-			
-			if (entity[i].type == TYPE_ENEMY && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 0))
+			/* Collision test for AI */
+
+			checkAiCollision(i, j);	
+
+			/* If a collision occured with fire and enemy, remove enemy */
+		
+			if((entity[i].type == TYPE_FIRE_BACK || entity[i].type == TYPE_FIRE_LEFT || entity[i].type == TYPE_FIRE_FRONT || entity[i].type == TYPE_FIRE_RIGHT || entity[i].type == TYPE_FIRE_CENTER ) && entity[j].type == TYPE_ENEMY)
 			{
-				entity[i].x++;
-				entity[i].y++;
-				break;
+				
+				if (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+				{	
+					entity[j].active = 0;
+					break;
+				}
 			}
 			
-			if (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+			/* Test collision for bomb, to not place it in wrong place */
+			
+			if(entity[i].type == TYPE_BOMB && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK || entity[j].type == TYPE_BOMB))
+			{	
+				if (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+				{
+					entity[i].active = 0;
+					player.bomb++;
+					break;
+				}
+			}
+		
+			/* Test collision with fire and wall, start wall destraction if occured */
+
+				if ((entity[i].type == TYPE_FIRE_CENTER || entity[i].type == TYPE_FIRE_FRONT || entity[i].type == TYPE_FIRE_RIGHT || entity[i].type == TYPE_FIRE_LEFT || entity[i].type == TYPE_FIRE_BACK) && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1))
 			{
-				if(entity[i].type == TYPE_BOMB && entity[j].type == TYPE_ENEMY)
-				{
-					/* If a collision occured with bomb and enemy, remove both entities */
-					
-					entity[j].active = 0;
-					entity[i].active = 0;
-					break;
-				}
-				
-				if(entity[i].type == TYPE_BOMB && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK))
-				{
-					entity[i].active = 0;
-					player.bomb = 0;
-					break;
-				}
+				entity[i].active = 0;
+				if(entity[j].type == TYPE_WALL)
+					entity[j].bomb = 1;
+				break;
 			}
 		}
 	}
