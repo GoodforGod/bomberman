@@ -1,5 +1,7 @@
 #include "defs.h"
 
+/* All structs, used in game */
+
 typedef struct Game
 {
 	TTF_Font *font;
@@ -26,7 +28,7 @@ typedef struct Sound
 
 typedef struct Entity
 {
-	int active, type, bomb;
+	int active, type, bomb, thinkTime;
 	unsigned long timer;
 	int x, y, prev_x, prev_y, up, down, left, right, center;
 	SDL_Surface *sprite;

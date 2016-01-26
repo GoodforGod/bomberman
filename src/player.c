@@ -8,6 +8,8 @@ extern void drawAnimation(Animation *, int, int);
 extern void doSpeedAnimation(Animation *, int);
 extern void playSound(int);
 
+/* init the player and fill params */
+
 void initPlayer()
 {
 	player.sprite = getSprite(PLAYER_SPRITE);
@@ -15,7 +17,10 @@ void initPlayer()
 	player.x = 30;
 	player.y = SCREEN_HEIGHT/2 - 24;
 	player.bomb = 1;
+	player.thinkTime = MAX_RELOAD_TIME;
 }
+
+/* JUST DO IT! */
 
 void doPlayer()
 {
@@ -26,10 +31,11 @@ void doPlayer()
 	{
 		/* Remember prev coordinates, to go back if hit wall or brick */
 
+		player.thinkTime--;
 		player.prev_x = player.x;
 		player.prev_y = player.y;
 		
-		if (input.fire == 1 && player.bomb >= 0)
+		if (input.fire == 1 && player.bomb > 0 && player.thinkTime <= 0)
 		{
 			/* You can only place bomb when the bomb flag is 1 or more */
 			
@@ -37,7 +43,7 @@ void doPlayer()
 
 			bomb_x = player.x % 64 - 30;
 			bomb_y = player.y % 64 - 34;
-				
+			
 			if(bomb_x < 32)
 			{
 				if(bomb_y < 32)
@@ -52,6 +58,11 @@ void doPlayer()
 				else 
 					addBomb(player.x + (64 - bomb_x), player.y + (64 - bomb_y));
 			}
+				
+			/* Place bomb and MAKE YOUR DREAMES COME TRUE! */
+				
+			player.thinkTime = MAX_RELOAD_TIME;
+			playSound(BOMB_PLACE_SOUND);
 			player.bomb--;
 		}
 		

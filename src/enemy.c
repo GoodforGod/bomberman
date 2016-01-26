@@ -3,9 +3,10 @@
 extern int getFreeEntity(void);
 extern void drawAnimationEntity(void);
 extern SDL_Surface *getSprite(int);
-extern int collision(int, int, int, int, int, int, int, int);
 
 void moveEnemy(void);
+
+/* The same as addWall, addFire, addBomb.. But thats enemies, ENEMIES DUDE! */
 
 void addEnemy(int x, int y)
 {
@@ -25,6 +26,7 @@ void addEnemy(int x, int y)
 	entity[i].left = 0;
 	entity[i].right = 0;
 	entity[i].center = 0;
+	entity[i].timer = 0;
 	entity[i].action = &moveEnemy;
 	entity[i].draw = &drawAnimationEntity;
 	entity[i].sprite = getSprite(ENEMY_BLUE_IDLE_SPRITE);
@@ -33,46 +35,65 @@ void addEnemy(int x, int y)
 
 void moveEnemy(void)
 {
+	/* Remember prev coordinates, to backup from them if moved off screen */
+
 	int speed = 2;
-	while(1)
+	self->prev_x = self->x;
+	self->prev_y = self->y;
+
+	/* Switch for Vector to move 
+	* Case 1 - Up
+	* Case 2 - Down
+	* Case 3 - Right
+	* Case 4 - Left
+	*/
+
+	switch(self->timer)
 	{
-		if((self->up = 1) && (self->center >= 0) && (self->y > 32))
-		{
+		case 1:
 			self->y -= speed;
-			self->center--;
 			break;
-		}
-
-		if((self->down = 1) && (self->center >= 0) && ((self->y + self->sprite->h + 1) <= SCREEN_HEIGHT - 28))
-		{
+		case 2:
 			self->y += speed;
-			self->center--;
 			break;
-		}
-
-		if((self->right = 1) && (self->center >= 0) && ((self->x + self->sprite->w + 1) <= SCREEN_WIDTH - 28))
-		{
+		case 3:
 			self->x += speed;
-			self->center--;
 			break;
-		}
-
-		if((self->left = 1) && (self->center > 0) && (self->x> 20))
-		{
+		case 4:
 			self->x -= speed;
-			self->center--;
-		}
-
-		break;
+			break;
+		default:
+			break;
 	}
 
-	if(self->center <= 0)
+	/* Check to not move off protected area screen */
+
+	if(self->y < 32)
 	{
-		self->up = 0;
-		self->down = 0;
-		self->right = 0;
-		self->left = 0;
+		self->y = self->prev_y;
+		self->timer = 0;
 	}
+	if((self->y + self->sprite->h) > SCREEN_HEIGHT - 28)
+	{
+		self->y = self->prev_y;
+		self->timer = 0;
+	}
+	if((self->x + self->sprite->w) > SCREEN_WIDTH - 28)
+	{
+		self->x = self->prev_x;
+		self->timer = 0;
+	}
+	if(self->x < 20)
+	{
+		self->x = self->prev_x;
+		self->timer = 0;
+	}
+
+	/* Use 1 gas, due to 1 action performed */
+
+	self->center--;
+
+	/* Check to not move off screen */
 
 	if (self->x >= SCREEN_WIDTH || self->x <= 0)
 		self->active = 0;

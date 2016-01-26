@@ -2,127 +2,184 @@
 
 extern int collision(int, int, int, int, int, int, int, int);
 
-void defaultTest(int got_i, int got_j)
+/* Default check prosedure, used when no vector (vector = 0) */
+
+void defaultTest(int got_i, int got_j, int size, int indent)
 {
-	int i = got_i, j = got_j;
-	/* Check all directions for empty 64x64 block to move next and store that data */
+	/* Block - offset to check next chunk, speed - offset to correct check due to enemy speed */
+	
+	int i = got_i, j = got_j, speed = 2, block = size, offset = indent;
+	
+	/* Check all directions for empty block to move next and store that data into enemy entity */
+	
 	if ((entity[i].type == TYPE_ENEMY) && (entity[i].center <= 0) && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK || entity[j].type == TYPE_BOMB))
 	{
 
-		if(collision(entity[i].x + 60, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+		/* Right direction */
+
+		if(collision(entity[i].x + block, entity[i].y, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 		{
 			entity[i].right = 0;
+			if(entity[i].timer == 3)
+				entity[i].timer = 0;
+			return;
 		}
 		else
 		{
-			if((entity[i].x + entity[i].sprite->w + 1) <= SCREEN_WIDTH - 28)
+			if((entity[i].x + speed + entity[i].sprite->w) < SCREEN_WIDTH - 28)
 			{
-				entity[i].timer = 1;
-				entity[i].center = 64;
-				entity[i].right = 1;
+				if(entity[i].timer == 0)
+					entity[i].timer = 3;
 			}	
 		}
-				
-		if(collision(entity[i].x - 60, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+		
+		/* Left directin */
+
+		if(collision(entity[i].x - block, entity[i].y, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 		{
 			entity[i].left = 0;
+			if(entity[i].timer == 4)
+				entity[i].timer = 0;
+			return;
 		}
 		else
 		{
-			if(entity[i].x + 1> 20)
+			if(entity[i].x - speed  > 20)
 			{
-				entity[i].timer = 2;
-				entity[i].center = 64;
-				entity[i].left = 1;
+				if(entity[i].timer == 0)
+					entity[i].timer = 4;
 			}
 		}
-				
-		if(collision(entity[i].x, entity[i].y + 60, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
-		{
+		
+		/* Down direction */
+
+		if(collision(entity[i].x, entity[i].y + block, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+		
 			entity[i].down = 0;
+			if(entity[i].timer == 2)
+				entity[i].timer = 0;
+			return;
 		}
 		else
 		{
-			if((entity[i].y + entity[i].sprite->h + 1) <= SCREEN_HEIGHT - 28)
+			if((entity[i].y + speed + entity[i].sprite->h) < SCREEN_HEIGHT- 28)
 			{
-				entity[i].timer = 3;
-				entity[i].center = 64;
-				entity[i].down = 1;
+				if(entity[i].timer == 0)
+					entity[i].timer = 2;
 			}
 		}
 
-		if(collision(entity[i].x, entity[i].y - 60, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+		/* Front direction */
+
+		if(collision(entity[i].x, entity[i].y - block, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 		{
 			entity[i].up = 0;
+			if(entity[i].timer == 1)
+				entity[i].timer = 0;
+			return;
 		}
 		else
 		{
-			if(entity[i].y > 36)
+			if(entity[i].y - speed > 32)
 			{
-				entity[i].timer = 4;
-				entity[i].center = 64;
-				entity[i].up = 1;
+			    if(entity[i].timer == 0)
+					entity[i].timer = 1;
 			}
-		}
 	}
 }
 
-void checkAiCollision(int got_i, int got_j)
+/* Check prosedure, used to check next chunk when the Vector is set */
+
+void checkAiCollision(int got_i, int got_j, int movement)
 {
-	int i = got_i, j = got_j;
+	/* entity.timer = movement Vector */
+
+	int i = got_i, j = got_j, block = 64, offset = 2;
 
 	if ((entity[i].type == TYPE_ENEMY) && (entity[i].center <= 0) && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK || entity[j].type == TYPE_BOMB))
 			{
+				/* Switch for Vector, to choose which is set, 
+				 * if next chunk on that vector is free, 
+				 * then move next or use default procedure */
+
+				/* Case 1 - Up
+				 * Case 2 - Down
+				 * Case 3 - Right
+				 * Case 4 - Left
+				 */
+
 				switch(entity[i].timer)
 				{
-					case 1:
-						if(collision(entity[i].x + 60, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
-						{
-
-							if((entity[i].x + entity[i].sprite->w + 1) <= SCREEN_WIDTH - 28)
-							{
-								entity[i].timer = 1;
-								entity[i].center = 64;
-								entity[i].right = 1;
-							}	
-						}
-						return;
-					case 2:
-						if(collision(entity[i].x - 60, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
-						{
-							if(entity[i].x + 1> 20)
-							{
-								entity[i].timer = 2;
-								entity[i].center = 64;
-								entity[i].left = 1;
-							}
-						}
-						return;
 					case 3:
-						if(collision(entity[i].x, entity[i].y + 60, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+						if(collision(entity[i].x + block, entity[i].y, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 						{
-							if((entity[i].y + entity[i].sprite->h + 1) <= SCREEN_HEIGHT - 28)
+							entity[i].right = 0;
+							if(entity[i].timer == 3)
+								entity[i].timer = 0;
+						}
+						else
+						{
+							if((entity[i].x + entity[i].sprite->w + 1) < SCREEN_WIDTH - 28)
 							{
 								entity[i].timer = 3;
-								entity[i].center = 64;
-								entity[i].down = 1;
+								return;
 							}
 						}
-						return;
+						break;
 					case 4:
-						if(collision(entity[i].x, entity[i].y - 60, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+						if(collision(entity[i].x - block, entity[i].y, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
 						{
-							if(entity[i].y > 36)
+							entity[i].left = 0;
+							if(entity[i].timer == 4)
+								entity[i].timer = 0;
+						}
+						else
+						{
+							if(entity[i].x + 1 > 20)
 							{
 								entity[i].timer = 4;
-								entity[i].center = 64;
-								entity[i].up = 1;
+								return;
 							}
 						}
-						return;
-					default:
-						defaultTest(i, j);
+						break;
+					case 2:
+						if(collision(entity[i].x, entity[i].y + block, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+						{
+							entity[i].down = 0;
+							if(entity[i].timer == 2)
+								entity[i].timer = 0;
+						}
+						else
+						{
+							if((entity[i].y + entity[i].sprite->h + 1) < SCREEN_HEIGHT - 28)
+							{
+								entity[i].timer = 2;
+								return;
+							}
+						}
+						break;
+					case 1:
+						if(collision(entity[i].x, entity[i].y - block, entity[i].sprite->w - offset, entity[i].sprite->h - offset, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+						{
+							entity[i].up = 0;
+							if(entity[i].timer == 1)
+								entity[i].timer = 0;
+						}
+						else
+						{
+							if(entity[i].y > 33)
+							{
+								entity[i].timer = 1;
+								return;
+							}
+							else entity[i].timer = 0;
+						}
 						break;
 				}
-			}
+
+				/* If prev Vector had next chunk filled, use default procedure */
+				
+				if(entity[i].timer == 0)
+					defaultTest(i, j, block, offset);
+		}
 }

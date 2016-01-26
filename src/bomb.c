@@ -8,6 +8,8 @@ extern void addFire(int, int, int);
 extern int collision(int, int, int, int, int, int, int, int);
 static void moveStandardBomb(void);
 
+/* The same ass addWall, addBrick, add Fire, just for bombs, FOR BOMBS ONLY I SAID! */
+
 void addBomb(int x, int y)
 {
 	int i = getFreeEntity();
@@ -26,8 +28,6 @@ void addBomb(int x, int y)
 	entity[i].type = TYPE_BOMB;
 	entity[i].timer = SDL_GetTicks();	
 }
-
-
 
 static void moveStandardBomb()
 {

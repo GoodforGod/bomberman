@@ -1,4 +1,5 @@
 #include "main.h"
+#include <time.h>
 
 extern void init(char *);
 extern void cleanup(void);
@@ -23,12 +24,18 @@ extern TTF_Font *loadFont(char *, int);
 extern void playSoundTimes(int, int);
 extern void playSound(int);
 
+/* All in one place... Main CYCLE DUDE! Thats it! */
+
 int main(int argc, char *argv[])
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go, terr;
 	unsigned long timer;
+	
+	/* Make rand based on time */
 
+	srand( (unsigned)time( NULL ) );
+	
 	/* Start up SDL */
 	
 	init("(☞ﾟヮﾟ)☞  Bomberman  ☜(ﾟヮﾟ☜)           (ಠ_ರ)");
@@ -53,7 +60,7 @@ int main(int argc, char *argv[])
 	
 	/* Load fonts */
 
-	game.font = loadFont("font/blackWolf.ttf", 16);
+	game.font = loadFont("font/MunroNarrow.ttf", 24);
 	
 	/* Intialise the player and terrain */
 	

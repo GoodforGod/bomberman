@@ -23,6 +23,9 @@ void getInput()
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym)
 				{
+					case SDLK_SPACE:
+						input.fire = 1;
+						break;
 					case SDLK_UP:
 						input.up = 1;
 						break;
@@ -38,23 +41,21 @@ void getInput()
 					case SDLK_RIGHT:
 						input.right = 1;
 						break;
-						
-					case SDLK_SPACE:
-						input.fire = 1;
-						break;
-					
 					case SDLK_ESCAPE:
 						exit(0);
 						break;
-					
 					default:
-					break;
+						break;
 				}
 				break;
 			
 			case SDL_KEYUP:
 				switch (event.key.keysym.sym)
 				{
+					case SDLK_SPACE:
+						input.fire = 0;
+						break;
+			
 					case SDLK_UP:
 						input.up = 0;
 						break;
@@ -70,11 +71,7 @@ void getInput()
 					case SDLK_RIGHT:
 						input.right = 0;
 						break;
-						
-					case SDLK_SPACE:
-						input.fire = 0;
-						break;
-					
+	
 					default:
 						break;
 				}

@@ -49,6 +49,8 @@ void playSoundTimes(int index, int repeatTimes)
 	Mix_PlayChannel(-1, sound[index].effect, repeatTimes);
 }
 
+/* Load all sound used in game */
+
 void loadAllSounds()
 {
 	loadSound(BOMB_SOUND, "sound/bomb_small_explode.ogg");
@@ -57,7 +59,11 @@ void loadAllSounds()
 	loadSound(ENEMY_JUMP_SOUND, "sound/enemy_jump.ogg");
 	loadSound(BACKGROUND_NORMAL_SOUND, "sound/game_background.ogg");
 	loadSound(PLAYER_START_SOUND, "sound/player_start.ogg");
+	loadSound(BOMB_PLACE_SOUND, "sound/bomb_place.ogg");
+	loadSound(BONUS, "sound/player_special.ogg");
 }
+
+/* Free all sound after close application */
 
 void freeSounds()
 {

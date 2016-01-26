@@ -70,16 +70,14 @@ void freeAnimation(Animation *anim)
 	if (anim->frame != NULL)
 	{
 		for (i=0;i<anim->frameCount;i++)
-		{
 			if (anim->frame[i] != NULL)
-			{
 				SDL_FreeSurface(anim->frame[i]);
-			}
-		}
 		
 		free(anim->frame);
 	}
 }
+
+/* The same as doAnimation, but can draw with the specific speed, to not use more extern variables */
 
 void doSpeedAnimation(Animation *anim, int animSpeed)
 {
@@ -90,13 +88,13 @@ void doSpeedAnimation(Animation *anim, int animSpeed)
 		anim->frameIndex++;
 		
 		if (anim->frameIndex == anim->frameCount)
-		{
 			anim->frameIndex = 0;
-		}
 		
 		anim->counter = animSpeed;
 	}
 }
+
+/* The same as doSpeedAnimation, but draw animation based on extern variable only */
 
 void doAnimation(Animation *anim)
 {
@@ -107,13 +105,13 @@ void doAnimation(Animation *anim)
 		anim->frameIndex++;
 		
 		if (anim->frameIndex == anim->frameCount)
-		{
 			anim->frameIndex = 0;
-		}
 		
 		anim->counter = ANIM_SPEED;
 	}
 }
+
+/* Load all animation, used in game */
 
 void loadAllAnimation()
 {

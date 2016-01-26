@@ -6,6 +6,10 @@ extern SDL_Surface *getSprite(int);
 
 static void doBrick(void);
 
+/* Similar to addWall and addEnemy 
+ * But this function can accept TYPE of structure
+ * and is also used to add Bonuses */
+
 void addBrick(int x, int y, int setType)
 {
 	int i = getFreeEntity();
@@ -21,6 +25,8 @@ void addBrick(int x, int y, int setType)
 	entity[i].y = y;
 	entity[i].action = &doBrick;
 	entity[i].draw = &drawStandardEntity;
+	entity[i].type = setType;
+	
 	switch(setType)
 	{
 		case TYPE_BRICK:
@@ -30,10 +36,9 @@ void addBrick(int x, int y, int setType)
 			entity[i].sprite = getSprite(BONUS_AMMO_SPRITE);
 			break;
 	}
-	entity[i].type = setType;
 }
 
 static void doBrick(void)
 {
-
+	/* Come on, bricks do nothing, buddy! */
 }

@@ -56,6 +56,22 @@ void doEntities()
 	}
 }
 
+void cycleAllAnimations()
+{
+	int speed = 15;
+	
+	/* cycle to synhronize all animations to draw next ones except wall */
+
+	doSpeedAnimation(&fireFrontAnimation, speed);
+	doSpeedAnimation(&fireRightAnimation, speed);
+	doSpeedAnimation(&fireBackAnimation, speed);
+	doSpeedAnimation(&fireLeftAnimation, speed);
+	doSpeedAnimation(&fireCenterAnimation, speed);
+	doSpeedAnimation(&enemyBlueLeft, 9);
+	doSpeedAnimation(&enemyBlueRight, 9);
+	doSpeedAnimation(&bombAnimation, 10);	
+}
+
 void drawEntities()
 {
 	int i;
@@ -71,55 +87,37 @@ void drawEntities()
 			self->draw();
 		}
 	}
-}
-
-void cycleFireAnimations()
-{
-	int speed = 15;
-	
-	/* cycle to synhronize all fire animations */
-
-	doSpeedAnimation(&fireFrontAnimation, speed);
-	doSpeedAnimation(&fireRightAnimation, speed);
-	doSpeedAnimation(&fireBackAnimation, speed);
-	doSpeedAnimation(&fireLeftAnimation, speed);
-	doSpeedAnimation(&fireCenterAnimation, speed);
+	cycleAllAnimations();
 }
 
 void drawAnimationEntity()
 {
-	int speed = 12;
-
-	/* Use switch to choose animation for specific type */ 
+	/* Use switch to choose animation for specific TYPE */ 
 
 	switch(self->type)
 	{
 		case TYPE_ENEMY:
-			doSpeedAnimation(&enemyBlueLeft, 9);
-			drawAnimation(&enemyBlueLeft, self->x, self->y);
+			if(self->x < self->prev_x)
+				drawAnimation(&enemyBlueLeft, self->x, self->y);
+			else
+				drawAnimation(&enemyBlueRight, self->x, self->y);
 			break;
 		case TYPE_BOMB:
-			doSpeedAnimation(&bombAnimation, 10);	
 			drawAnimation(&bombAnimation, self->x, self->y);
 			break;
 		case TYPE_FIRE_FRONT:
-			doSpeedAnimation(&fireFrontAnimation, speed);
 			drawAnimation(&fireFrontAnimation, self->x, self->y);
 			break;
 		case TYPE_FIRE_RIGHT:
-			doSpeedAnimation(&fireRightAnimation, speed);
 			drawAnimation(&fireRightAnimation, self->x, self->y);
 			break;
 		case TYPE_FIRE_BACK:
 			drawAnimation(&fireBackAnimation, self->x, self->y);
-			doSpeedAnimation(&fireBackAnimation, speed);
 			break;
 		case TYPE_FIRE_LEFT:
-			doSpeedAnimation(&fireLeftAnimation, speed);
 			drawAnimation(&fireLeftAnimation, self->x, self->y);
 			break;
 		case TYPE_FIRE_CENTER:
-			doSpeedAnimation(&fireCenterAnimation, speed);
 			drawAnimation(&fireCenterAnimation, self->x, self->y);
 			break;
 		case TYPE_WALL:

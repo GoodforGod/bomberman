@@ -81,7 +81,7 @@ static void doFire()
 {
 	/* Kill the fire if it moves off the screen or time is out */
 	
-	if(SDL_GetTicks() - self->timer >= 900)
+	if(SDL_GetTicks() - self->timer >= 800)
 	{
 		self->active = 0;
 		resetAnimation(self->type);	

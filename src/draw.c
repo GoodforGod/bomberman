@@ -62,7 +62,7 @@ void draw()
 
 	char text_timer[40];
 	char text_score[40];
-
+	char text_bomb[40];
 	/* Blank the screen */
 	
 	SDL_FillRect(game.screen, NULL, 0);
@@ -72,10 +72,15 @@ void draw()
 	drawLevel();
 	
 	/* Draw the text */
-	
+	if(player.bomb < 0)
+		sprintf(text_bomb, "BOMB: %d", 0);
+	else sprintf(text_bomb, "BOMB: %d", player.bomb);
+
+	drawString(text_bomb, 810, 0, game.font, 200, 0);
+
 	sprintf(text_score, "SCORE: %d", game.score);
 	
-	drawString(text_score, 450, 0, game.font, 200, 0);
+	drawString(text_score, 510, 0, game.font, 200, 0);
 	
 	sprintf(text_timer, "TIME: %lu", game.timer);
 	
@@ -98,22 +103,18 @@ void draw()
 	SDL_Delay(1);
 }
 
+/* Delay to get aroud 60FPS */
+
 void delay(unsigned int frameLimit)
 {
 	unsigned int ticks = SDL_GetTicks();
 
 	if (frameLimit < ticks)
-	{
 		return;
-	}
 	
 	if (frameLimit > ticks + 16)
-	{
 		SDL_Delay(16);
-	}
 	
 	else
-	{
 		SDL_Delay(frameLimit - ticks);
-	}
 }

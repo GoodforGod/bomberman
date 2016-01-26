@@ -7,7 +7,7 @@ extern void drawAnimationEntity(void);
 
 static void doWall(void);
 
-/* All works like bomb module */
+/* Oh... Come on.... */
 
 void addWall(int x, int y)
 {
@@ -34,12 +34,10 @@ static void doWall(void)
 	/* If wall was hit by fire then start its destruction */
 
 	if(self->bomb == 1)
-	{
 		self->draw = &drawAnimationEntity;
-	}
 	
 	/* If animation done, then free wall */
 
-	if(wallAnimation.frameIndex == 6)
+	if(wallAnimation.frameIndex == 6 && self->bomb == 1)
 		self->active = 0;
 }

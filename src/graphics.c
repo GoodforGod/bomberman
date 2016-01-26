@@ -98,6 +98,8 @@ void freeSprites()
 	}
 }
 
+/* Again, load all sprites, not only to render, but for collision, for collision, BUDDY! */
+
 void loadAllSprites()
 {
 	loadSprite(PLAYER_SPRITE, "gfx/bomberman_idle.png");
