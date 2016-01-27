@@ -7,7 +7,8 @@ extern void checkAiCollision(int, int, int);
 
 void doCollisions()
 {
-	int i, j, movement = 64, rand_1, rand_2, rand_3, rand_4, digit;
+	int i, j, movement = 64, rand_left, rand_right, rand_down, rand_up, digit;
+	static int prev_vector = 0;
 	/* Check each entity against the rest and inactive player, skipping over inactive ones */
 
 	if(player.active == 0)
@@ -29,7 +30,7 @@ void doCollisions()
 		
 		/* Test player collision with wall and brick or bonus */
 
-		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK || entity[i].type == TYPE_BONUS_AMMO) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-12, entity[i].sprite->h-5, player.x, player.y, player.sprite->w-12, player.sprite->h-5) == 1))
+		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK || entity[i].type == TYPE_BONUS_AMMO) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-12, entity[i].sprite->h-4, player.x, player.y, player.sprite->w-12, player.sprite->h-4) == 1))
 		{
 			if(entity[i].type == TYPE_BONUS_AMMO)
 			{
@@ -64,37 +65,6 @@ void doCollisions()
 
 		for (j=0;j<MAX_ENTITIES;j++)
 		{
-		/*
-		 * if(entity[i].type == TYPE_ENEMY && entity[j].type == TYPE_ENEMY)
-			{	
-				if (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
-				{
-				  Change direction for j 
-
-					if(entity[j].timer == 1)
-						entity[j].timer = 2;
-					if(entity[j].timer == 2)
-						entity[j].timer = 1;
-					if(entity[j].timer == 3)
-						entity[j].timer = 4;
-					if(entity[j].timer == 4)
-						entity[j].timer = 3;	
-					
-					
-					
-					if(entity[i].timer == 1)
-						entity[i].timer = 2;
-					if(entity[i].timer == 2)
-						entity[i].timer = 1;
-					if(entity[i].timer == 3)
-						entity[i].timer = 4;
-					if(entity[i].timer == 4)
-						entity[i].timer = 3;	
-				}
-			}
-
-			*/
-
 			/* Don't collide with yourself, inactive entities or entities of the same type */
 			
 			if (i == j || entity[j].active == 0 || entity[j].type == entity[i].type)
@@ -122,7 +92,7 @@ void doCollisions()
 			
 			if(entity[i].type == TYPE_BOMB && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK || entity[j].type == TYPE_ENEMY))
 			{	
-				if (collision(entity[i].x, entity[i].y, entity[i].sprite->w-4, entity[i].sprite->h-4, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1)
+				if (collision(entity[i].x, entity[i].y, entity[i].sprite->w-6, entity[i].sprite->h-6, entity[j].x, entity[j].y, entity[j].sprite->w-4, entity[j].sprite->h-4) == 1)
 				{
 					if(entity[j].type == TYPE_ENEMY && entity[j].timer == 1)
 						entity[j].timer = 2;
@@ -143,7 +113,7 @@ void doCollisions()
 			
 			/* Test collision with fire and wall, start wall destraction if occured */
 
-				if ((entity[i].type == TYPE_FIRE_CENTER || entity[i].type == TYPE_FIRE_FRONT || entity[i].type == TYPE_FIRE_RIGHT || entity[i].type == TYPE_FIRE_LEFT || entity[i].type == TYPE_FIRE_BACK) && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1))
+				if ((entity[i].type == TYPE_FIRE_CENTER || entity[i].type == TYPE_FIRE_FRONT || entity[i].type == TYPE_FIRE_RIGHT || entity[i].type == TYPE_FIRE_LEFT || entity[i].type == TYPE_FIRE_BACK) && (entity[j].type == TYPE_WALL || entity[j].type == TYPE_BRICK) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-4, entity[i].sprite->h-4, entity[j].x, entity[j].y, entity[j].sprite->w, entity[j].sprite->h) == 1))
 			{
 				entity[i].active = 0;
 				if(entity[j].type == TYPE_WALL)
@@ -158,35 +128,33 @@ void doCollisions()
 		{
 			/* if enemy have no points to move, then fill Vector or check previose */
 
-			entity[i].center = movement;
 
 			/* Only if no vector or previos, was reset */
 
+			entity[i].center = movement;
 			if(entity[i].timer == 0)
 			{
+				puts("ZERO");
 				if(entity[i].up == 1)
 				{
 					if(entity[i].y >= 36)
 					{
 						entity[i].timer++;
 					}
-					else entity[i].timer--;
 				}
 				if(entity[i].down == 1)
 				{
-					if((entity[i].y + entity[i].sprite->h + 1) <= SCREEN_HEIGHT - 28)
+					if((entity[i].y + entity[i].sprite->h) <= SCREEN_HEIGHT - 28)
 					{
 						entity[i].timer += 10;
 					}
-					else entity[i].timer -= 10;
 				}
 				if(entity[i].right == 1)
 				{
-					if((entity[i].x + entity[i].sprite->w + 1) <= SCREEN_WIDTH - 28)
+					if((entity[i].x + entity[i].sprite->w) <= SCREEN_WIDTH - 28)
 					{
 						entity[i].timer += 100;
 					}
-					else entity[i].timer -= 100;
 				}
 				if(entity[i].left == 1)
 				{
@@ -194,36 +162,91 @@ void doCollisions()
 					{
 						entity[i].timer += 1000;
 					}
-					else entity[i].timer -= 1000;
 				}
 
 				/* Vector is random, due to make enemy more random, up = 1, down = 2, etc. */
 
 				digit = (int)entity[i].timer;
-				rand_4 = digit % 10;
-				digit /= 10;
-				rand_3 = digit % 10;
-				digit /= 10;
-				rand_2 = digit % 10;
-				digit /= 10;
-				rand_1 = digit % 10;
+				
+				if(digit/1000 >= 1)
+				{
+					rand_up = digit % 10;
+					digit /= 10;
+				}
+				if(digit/100 >= 1)
+				{
+					rand_down = digit % 10;
+					digit /= 10;
+				}
+				if(digit/10 >= 1)
+				{
+					rand_right = digit % 10;
+					digit /= 10;
+				}
+				
+				rand_left = digit % 10;
 
 				/* Get random vector between 1 and 4 */
 				
-				entity[i].timer = (unsigned long) rand() % (10);
-					if(entity[i].timer > 4)
-						entity[i].timer -= 4;
+				entity[i].timer = (unsigned long) rand() % (10) + 2;
 					if(entity[i].timer > 4)
 						entity[i].timer -= 3;
-					if(entity[i].timer == 1 && rand_4 == 1)
+					if(entity[i].timer > 4)
+						entity[i].timer -= 3;
+					if(entity[i].timer > 4)
+						entity[i].timer -= 3;
+					puts("NEW VECTOR");
+						if((entity[i].y > (SCREEN_HEIGHT / 2) + 200) && (rand_up == 1))
+						{
+							entity[i].timer = 1;
+							break;
+						}
+						if((entity[i].y < (SCREEN_HEIGHT/2) - 200 ) && rand_down == 1)
+						{
+							entity[i].timer = 2;
+							break;
+						}
+						if((entity[i].x > (SCREEN_WIDTH / 2) + 350) &&  rand_left == 1)
+						{
+							entity[i].timer = 4;
+							break;
+						}
+						if((entity[i].x < (SCREEN_WIDTH / 2) - 350) && rand_right == 1)
+						{
+							entity[i].timer = 3;
+							break;
+						}
+					}
+					prev_vector--;
+					switch(entity[i].timer)
+					{
+						case 1:
+							prev_vector = 2;
+							break;
+						case 2:
+							prev_vector = 1;
+							break;
+						case 3:
+							prev_vector = 4;
+							break;
+						case 4:
+							prev_vector = 3;
+							break;
+						default:
+							prev_vector = 0;
+							break;
+					}
+					prev_vector++;
+					/*
+					if(entity[i].timer == 1 && rand_up == 1)
 						break;
-					if(entity[i].timer == 2 && rand_3 == 1)
+					if(entity[i].timer == 2 && rand_down == 1)
 						break;
-					if(entity[i].timer == 3 && rand_2 == 1)
+					if(entity[i].timer == 3 && rand_right == 1)
 						break;
-					if(entity[i].timer == 4 && rand_1 == 1)
+					if(entity[i].timer == 4 && rand_left == 1)
 						break;
-			}
+					*/
 		}
 	}
 }

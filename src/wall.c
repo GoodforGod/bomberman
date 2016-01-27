@@ -39,5 +39,8 @@ static void doWall(void)
 	/* If animation done, then free wall */
 
 	if(wallAnimation.frameIndex == 6 && self->bomb == 1)
+	{
 		self->active = 0;
+		wallAnimation.frameIndex = 0;
+	}
 }

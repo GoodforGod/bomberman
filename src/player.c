@@ -14,7 +14,7 @@ void initPlayer()
 {
 	player.sprite = getSprite(PLAYER_SPRITE);
 	player.active = 1;	
-	player.x = 30;
+	player.x = 30 + 128;
 	player.y = SCREEN_HEIGHT/2 - 24;
 	player.bomb = 1;
 	player.thinkTime = MAX_RELOAD_TIME;
@@ -41,8 +41,8 @@ void doPlayer()
 			
 			/* Trying to place bomb in the nearest possition */
 
-			bomb_x = player.x % 64 - 30;
-			bomb_y = player.y % 64 - 34;
+			bomb_x = player.x % 64 - 32;
+			bomb_y = player.y % 64 - 38;
 			
 			if(bomb_x < 32)
 			{

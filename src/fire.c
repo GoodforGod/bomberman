@@ -75,6 +75,7 @@ void resetAnimation(int fire_direction_type)
 			fireFrontAnimation.frameIndex = 0;
 			break;
 	}
+	
 }
 
 static void doFire()

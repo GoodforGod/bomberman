@@ -38,10 +38,10 @@ static void moveStandardBomb()
 		self->active = 0;
 		player.bomb++;
 		addFire(self->x, self->y, TYPE_FIRE_CENTER);
-		addFire(self->x, self->y-64, TYPE_FIRE_FRONT);
-		addFire(self->x+64, self->y, TYPE_FIRE_RIGHT);
-		addFire(self->x, self->y+64, TYPE_FIRE_BACK);
-		addFire(self->x-64, self->y, TYPE_FIRE_LEFT); 
+		addFire(self->x, self->y-62, TYPE_FIRE_FRONT);
+		addFire(self->x+62, self->y, TYPE_FIRE_RIGHT);
+		addFire(self->x, self->y+62, TYPE_FIRE_BACK);
+		addFire(self->x-62, self->y, TYPE_FIRE_LEFT); 
 		playSound(BOMB_SOUND);
 	}
 	

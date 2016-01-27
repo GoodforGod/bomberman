@@ -46,7 +46,7 @@ void fillLevel()
 	
 	for(;i>0;i-=256)
 	{
-		for(;j>0;j-=256)
+		for(;j>0;j-=448)
 		{
 			/* Fill level with walls randomly */
 
@@ -66,10 +66,9 @@ void fillLevel()
 		j = SCREEN_HEIGHT-148;
 	}
 
-	addEnemy(SCREEN_WIDTH - 156 - (128 * 4), SCREEN_HEIGHT - 212);
-	addWall(SCREEN_WIDTH - x_offset - 64, SCREEN_HEIGHT - y_offset - 64);
-	addBrick(SCREEN_WIDTH - x_offset - 64, SCREEN_HEIGHT - y_offset, TYPE_BONUS_AMMO);
-	addEnemy(SCREEN_WIDTH - 556, SCREEN_HEIGHT - 212);
+	addEnemy(SCREEN_WIDTH - x_offset + 64, SCREEN_HEIGHT - y_offset);
+	addBrick(SCREEN_WIDTH - x_offset - 64, SCREEN_HEIGHT - y_offset - 4, TYPE_BONUS_AMMO);
+	addEnemy(SCREEN_WIDTH - x_offset + 64, SCREEN_HEIGHT - y_offset - 256 - 64);
 }
 
 void drawLevel()

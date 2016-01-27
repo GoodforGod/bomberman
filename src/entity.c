@@ -58,15 +58,8 @@ void doEntities()
 
 void cycleAllAnimations()
 {
-	int speed = 15;
-	
 	/* cycle to synhronize all animations to draw next ones except wall */
 
-	doSpeedAnimation(&fireFrontAnimation, speed);
-	doSpeedAnimation(&fireRightAnimation, speed);
-	doSpeedAnimation(&fireBackAnimation, speed);
-	doSpeedAnimation(&fireLeftAnimation, speed);
-	doSpeedAnimation(&fireCenterAnimation, speed);
 	doSpeedAnimation(&enemyBlueLeft, 9);
 	doSpeedAnimation(&enemyBlueRight, 9);
 	doSpeedAnimation(&bombAnimation, 10);	
@@ -93,6 +86,7 @@ void drawEntities()
 void drawAnimationEntity()
 {
 	/* Use switch to choose animation for specific TYPE */ 
+	int speed = 7;
 
 	switch(self->type)
 	{
@@ -107,18 +101,23 @@ void drawAnimationEntity()
 			break;
 		case TYPE_FIRE_FRONT:
 			drawAnimation(&fireFrontAnimation, self->x, self->y);
+			doSpeedAnimation(&fireFrontAnimation, speed);
 			break;
 		case TYPE_FIRE_RIGHT:
 			drawAnimation(&fireRightAnimation, self->x, self->y);
+			doSpeedAnimation(&fireRightAnimation, speed);
 			break;
 		case TYPE_FIRE_BACK:
 			drawAnimation(&fireBackAnimation, self->x, self->y);
+			doSpeedAnimation(&fireBackAnimation, speed);
 			break;
 		case TYPE_FIRE_LEFT:
 			drawAnimation(&fireLeftAnimation, self->x, self->y);
+			doSpeedAnimation(&fireLeftAnimation, speed);
 			break;
 		case TYPE_FIRE_CENTER:
 			drawAnimation(&fireCenterAnimation, self->x, self->y);
+			doSpeedAnimation(&fireCenterAnimation, speed);
 			break;
 		case TYPE_WALL:
 			doSpeedAnimation(&wallAnimation, 15);

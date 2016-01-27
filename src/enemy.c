@@ -94,7 +94,6 @@ void moveEnemy(void)
 	self->center--;
 
 	/* Check to not move off screen */
-
 	if (self->x >= SCREEN_WIDTH || self->x <= 0)
 		self->active = 0;
 
