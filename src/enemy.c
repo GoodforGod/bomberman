@@ -1,9 +1,5 @@
 #include "enemy.h"
 
-extern int getFreeEntity(void);
-extern void drawAnimationEntity(void);
-extern SDL_Surface *getSprite(int);
-
 void moveEnemy(void);
 
 /* The same as addWall, addFire, addBomb.. But thats enemies, ENEMIES DUDE! */
@@ -29,7 +25,7 @@ void addEnemy(int x, int y)
 	entity[i].timer = 0;
 	entity[i].action = &moveEnemy;
 	entity[i].draw = &drawAnimationEntity;
-	entity[i].sprite = getSprite(ENEMY_BLUE_IDLE_SPRITE);
+	entity[i].sprite = getSprite(ENEMY_IDLE_SPRITE);
 	entity[i].type = TYPE_ENEMY;
 }
 
@@ -48,6 +44,8 @@ void moveEnemy(void)
 	* Case 4 - Left
 	*/
 
+	/* Use 1 gas, due to 1 action performed */
+	
 	switch(self->timer)
 	{
 		case 1:
@@ -66,6 +64,7 @@ void moveEnemy(void)
 			break;
 	}
 
+	self->center--;
 	/* Check to not move off protected area screen */
 
 	if(self->y < 32)
@@ -88,10 +87,6 @@ void moveEnemy(void)
 		self->x = self->prev_x;
 		self->timer = 0;
 	}
-
-	/* Use 1 gas, due to 1 action performed */
-
-	self->center--;
 
 	/* Check to not move off screen */
 	if (self->x >= SCREEN_WIDTH || self->x <= 0)

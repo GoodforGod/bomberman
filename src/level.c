@@ -1,12 +1,5 @@
 #include "level.h" 
 
-extern int loadSprite(char *);
-extern void drawImage(SDL_Surface *, int, int);
-extern SDL_Surface *getSprite(int);
-extern void addEnemy(int, int);
-extern void addBrick(int, int, int);
-extern void addWall(int, int);
-
 /* Terrain sprite initializing */
 
 int initLevel()
@@ -26,10 +19,15 @@ void fillLevel()
 	 * function addBrick is also used to add Bonuses over the level
 	 * Cause it can accept the TYPE of structure */
 
-	int i = SCREEN_WIDTH-154, j = SCREEN_HEIGHT-148, y_offset = 152, x_offset = 154;
-	
+	int i, j, theX = SCREEN_WIDTH-128-LEVEL_X_OFFSET, theY = SCREEN_HEIGHT-128-LEVEL_X_OFFSET;
+	i = theX, j = theY;
+
 	/* Fill level depending on SCREEN_WIDTH ,SCREEN_HEIGHT and offsets */
 
+	/* Amount of enemies at the begining */
+
+	game.enemies = ENEMY_INIT_COUNT;
+	
 	for(;i>0;i-=128)
 	{
 		for(;j>0;j-=128)
@@ -38,11 +36,11 @@ void fillLevel()
 
 			addBrick(i, j, TYPE_BRICK);  
 		}
-		j = SCREEN_HEIGHT-148;
+		j = theY;
 	}
 	
-	i = SCREEN_WIDTH-154;
-	j = SCREEN_HEIGHT-148;
+	i = theX;
+	j = theY;
 	
 	for(;i>0;i-=256)
 	{
@@ -52,7 +50,7 @@ void fillLevel()
 
 			addWall(i - 64, j - 64);
 		}
-		j = SCREEN_HEIGHT-148;
+		j = theY;
 	}
 
 	for(;i>0;i-=128)
@@ -63,12 +61,11 @@ void fillLevel()
 
 			addEnemy(i - 64, j - 64);
 		}
-		j = SCREEN_HEIGHT-148;
+		j = theY;
 	}
 
-	addEnemy(SCREEN_WIDTH - x_offset + 64, SCREEN_HEIGHT - y_offset);
-	addBrick(SCREEN_WIDTH - x_offset - 64, SCREEN_HEIGHT - y_offset - 4, TYPE_BONUS_AMMO);
-	addEnemy(SCREEN_WIDTH - x_offset + 64, SCREEN_HEIGHT - y_offset - 256 - 64);
+	addBrick(SCREEN_WIDTH - LEVEL_X_OFFSET - 128, SCREEN_HEIGHT - LEVEL_X_OFFSET - 64 - 128, TYPE_BONUS_AMMO);
+	spawnEnemy((size_t)game.enemies);	
 }
 
 void drawLevel()

@@ -1,8 +1,5 @@
 #include "animation.h"
 
-extern SDL_Surface *loadImage(char *);
-extern void drawImage(SDL_Surface *, int, int);
-
 void loadAnimation(char *name, Animation *anim)
 {
 	/* Load up the data file that describes the animation */
@@ -114,16 +111,26 @@ void doAnimation(Animation *anim)
 /* Load all animation, used in game */
 
 void loadAllAnimation()
-{
+{	
+	char dest_enemy_up[40], dest_enemy_down[40], dest_enemy_left[40], dest_enemy_right[40], dest_bomb[40];
+
+	sprintf(dest_enemy_up, "data/enemy_%d_up.dat", enemy_type);
+	sprintf(dest_enemy_left, "data/enemy_%d_left.dat", enemy_type);
+	sprintf(dest_enemy_right, "data/enemy_%d_right.dat", enemy_type);
+	sprintf(dest_enemy_down, "data/enemy_%d_down.dat", enemy_type);
+	sprintf(dest_bomb, "data/bomb_%d.dat", rand() % 5);
+
 	loadAnimation("data/bomberman_front.dat", &bombermanFront);
 	loadAnimation("data/bomberman_back.dat", &bombermanBack);
 	loadAnimation("data/bomberman_left.dat", &bombermanLeft);
 	loadAnimation("data/bomberman_right.dat", &bombermanRight);
 	loadAnimation("data/bomberman_dead.dat", &bombermanDead);
 	loadAnimation("data/bomberman_cool.dat", &bombermanCool);
-	loadAnimation("data/enemyBlue_left.dat", &enemyBlueLeft);
-	loadAnimation("data/enemyBlue_right.dat", &enemyBlueRight);
-	loadAnimation("data/bomb_ready.dat", &bombAnimation);
+	loadAnimation(dest_enemy_up, &enemyUp);
+	loadAnimation(dest_enemy_down, &enemyDown);
+	loadAnimation(dest_enemy_left, &enemyLeft);
+	loadAnimation(dest_enemy_right, &enemyRight);
+	loadAnimation(dest_bomb, &bombAnimation);
 	loadAnimation("data/fire_center.dat", &fireCenterAnimation);
 	loadAnimation("data/fire_front.dat", &fireFrontAnimation);
 	loadAnimation("data/fire_left.dat", &fireLeftAnimation);

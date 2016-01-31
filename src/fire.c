@@ -1,9 +1,5 @@
 #include "fire.h"
 
-extern int getFreeEntity(void);
-extern SDL_Surface *getSprite(int);
-extern void drawAnimationEntity(void);
-
 static void doFire(void);
 
 /* Add fire and use switch to choose the right angle of animation */
@@ -24,31 +20,7 @@ void addFire(int x, int y, int fire_direction_type)
 	entity[i].action = &doFire;
 	entity[i].draw = &drawAnimationEntity;
 	entity[i].sprite = getSprite(FIRE_SPRITE);
-	
-	/* Choose correct fire type */
-	
-	switch(fire_direction_type)
-	{
-		case TYPE_FIRE_FRONT:
-			entity[i].type = TYPE_FIRE_FRONT;
-			break;
-		case TYPE_FIRE_RIGHT:
-			entity[i].type = TYPE_FIRE_RIGHT;
-			break;
-		case TYPE_FIRE_BACK:
-			entity[i].type = TYPE_FIRE_BACK;
-			break;
-		case TYPE_FIRE_LEFT:
-			entity[i].type = TYPE_FIRE_LEFT;
-			break;
-		case TYPE_FIRE_CENTER: 
-			entity[i].type = TYPE_FIRE_CENTER;
-			break;
-		default:
-			entity[i].type = TYPE_FIRE_FRONT;
-			break;
-	}
-
+	entity[i].type = fire_direction_type;
 	entity[i].timer = SDL_GetTicks();	
 }
 
@@ -72,7 +44,6 @@ void resetAnimation(int fire_direction_type)
 			fireCenterAnimation.frameIndex = 0;
 			break;
 		default:
-			fireFrontAnimation.frameIndex = 0;
 			break;
 	}
 	

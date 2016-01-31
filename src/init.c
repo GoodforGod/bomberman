@@ -1,10 +1,5 @@
 #include "init.h"
 
-extern void freeSprites(void);
-extern void freeSounds(void);
-extern void freeAnimation(Animation *);
-extern void closeFont(TTF_Font *);
-
 void init(char *title)
 {
 	/* Initialise SDL Video and Audio */
@@ -69,8 +64,10 @@ void cleanup()
 	freeAnimation(&bombermanRight);
 	freeAnimation(&bombermanFront);
 	freeAnimation(&bombermanBack);
-	freeAnimation(&enemyBlueLeft);
-	freeAnimation(&enemyBlueRight);
+	freeAnimation(&enemyLeft);
+	freeAnimation(&enemyRight);
+	freeAnimation(&enemyUp);
+	freeAnimation(&enemyDown);
 	freeAnimation(&bombAnimation);
 	freeAnimation(&fireFrontAnimation);
 	freeAnimation(&fireRightAnimation);
@@ -81,6 +78,7 @@ void cleanup()
 	/* Free fonts */
 
 	closeFont(game.font);
+	closeFont(game.message);
 
 	/* Close the mixer */
 	

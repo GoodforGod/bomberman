@@ -1,30 +1,6 @@
 #include "main.h"
-#include <time.h>
 
-extern void init(char *);
-extern void cleanup(void);
-extern void getInput(void);
-extern void draw(void);
-extern void initPlayer(void);
-extern void doPlayer(void);
-extern void doEntities(void);
-extern void loadAllSprites(void);
-extern void loadAllSounds(void);
-extern void addEnemy(int, int);
-extern void doCollisions(void);
-extern void delay(unsigned int);
-extern void drawLevel(void);
-extern int initLevel(void);
-extern void addBrick(int, int);
-extern void addWall(int, int);
-extern void loadAllAnimation(void);
-extern void doAnimation(Animation *);
-extern void fillLevel(void);
-extern TTF_Font *loadFont(char *, int);
-extern void playSoundTimes(int, int);
-extern void playSound(int);
-
-/* All in one place... Main CYCLE DUDE! Thats it! */
+/* All in one place... Main CYCLE! Thats it! */
 
 int main(int argc, char *argv[])
 {
@@ -33,8 +9,10 @@ int main(int argc, char *argv[])
 	unsigned long timer;
 	
 	/* Make rand based on time */
-
+	
 	srand( (unsigned)time( NULL ) );
+	
+	enemy_type = rand() % 10;
 	
 	/* Start up SDL */
 	
@@ -46,13 +24,13 @@ int main(int argc, char *argv[])
 	
 	go = 1;
 	
+	/* Load all Animation */
+
+	loadAllAnimation(); 
+	
 	/* Load all the sprites */
 	
 	loadAllSprites();
-
-	/* Load all Animation */
-	
-	loadAllAnimation(); 
 
 	/* Load all the sounds */
 	
@@ -61,6 +39,7 @@ int main(int argc, char *argv[])
 	/* Load fonts */
 
 	game.font = loadFont("font/MunroNarrow.ttf", 24);
+	game.message = loadFont("font/MunroNarrow.ttf", 76);
 	
 	/* Intialise the player and terrain */
 	
@@ -115,7 +94,9 @@ int main(int argc, char *argv[])
 		/* Draw everything */
 		
 		draw(); 
-	
+
+		checkGameEnemy();
+
 		/* Sleep briefly to stop sucking up all the CPU time */
 		
 		game.timer = (SDL_GetTicks() - timer) / 1000;

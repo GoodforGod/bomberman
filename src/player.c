@@ -1,13 +1,5 @@
 #include "player.h"
 
-extern int loadSprite(char *);
-extern void drawImage(SDL_Surface *, int, int);
-extern void addBomb(int, int);
-extern SDL_Surface *getSprite(int);
-extern void drawAnimation(Animation *, int, int);
-extern void doSpeedAnimation(Animation *, int);
-extern void playSound(int);
-
 /* init the player and fill params */
 
 void initPlayer()
@@ -42,7 +34,7 @@ void doPlayer()
 			/* Trying to place bomb in the nearest possition */
 
 			bomb_x = player.x % 64 - 32;
-			bomb_y = player.y % 64 - 38;
+			bomb_y = player.y % 64 - 30;
 			
 			if(bomb_x < 32)
 			{

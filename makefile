@@ -1,6 +1,6 @@
 CFLAGS = -Wall -pedantic -Werror
 LFLAGS = `sdl-config --libs` -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
-OBJS   = aiCollisions.o fire.o font.o animation.o level.o brick.o wall.o audio.o bomb.o collisions.o entity.o draw.o init.o input.o graphics.o main.o player.o enemy.o 
+OBJS   = spawn.o aiCollisions.o fire.o font.o animation.o level.o brick.o wall.o audio.o bomb.o collisions.o entity.o draw.o init.o input.o graphics.o main.o player.o enemy.o 
 PROG   = bomberman 
 CXX	   = gcc
 

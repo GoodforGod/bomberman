@@ -1,9 +1,5 @@
 #include "entity.h"
 
-extern void drawImage(SDL_Surface *, int, int);
-extern void drawAnimation(Animation *, int, int);
-extern void doSpeedAnimation(Animation *, int);
-
 void clearEntities()
 {
 	int i;
@@ -60,8 +56,6 @@ void cycleAllAnimations()
 {
 	/* cycle to synhronize all animations to draw next ones except wall */
 
-	doSpeedAnimation(&enemyBlueLeft, 9);
-	doSpeedAnimation(&enemyBlueRight, 9);
 	doSpeedAnimation(&bombAnimation, 10);	
 }
 
@@ -87,14 +81,35 @@ void drawAnimationEntity()
 {
 	/* Use switch to choose animation for specific TYPE */ 
 	int speed = 7;
-
+	int flag = 0;
 	switch(self->type)
 	{
 		case TYPE_ENEMY:
 			if(self->x < self->prev_x)
-				drawAnimation(&enemyBlueLeft, self->x, self->y);
-			else
-				drawAnimation(&enemyBlueRight, self->x, self->y);
+			{	drawAnimation(&enemyLeft, self->x, self->y);
+				doSpeedAnimation(&enemyLeft, 9);
+				flag = 1;
+			}
+			if(self->x > self->prev_x)	
+			{
+				drawAnimation(&enemyRight, self->x, self->y);
+				doSpeedAnimation(&enemyRight, 9);
+				flag = 1;
+			}
+			if(self->y < self->prev_y)
+			{
+				drawAnimation(&enemyUp, self->x, self->y);
+				doSpeedAnimation(&enemyUp, 9);
+				flag = 1;
+			}
+			if(self->y > self->prev_y)
+			{
+				drawAnimation(&enemyDown, self->x, self->y);
+				doSpeedAnimation(&enemyDown, 9);
+				flag = 1;
+			}
+			if(flag == 0)
+				drawAnimation(&enemyDown, self->x, self->y);
 			break;
 		case TYPE_BOMB:
 			drawAnimation(&bombAnimation, self->x, self->y);

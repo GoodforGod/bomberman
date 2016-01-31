@@ -5,3 +5,5 @@ extern Entity player;
 extern Control input;
 extern Game game;
 extern Entity *self;
+
+extern int collision(int, int, int, int, int, int, int, int);

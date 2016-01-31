@@ -102,13 +102,19 @@ void freeSprites()
 
 void loadAllSprites()
 {
+	char dest_brick[40], dest_terrain[40], dest_bonus[40], dest_enemy[40];
+	sprintf(dest_brick, "gfx/brick/brick_idle_%d.png", rand() % 24);
+	sprintf(dest_terrain, "gfx/terrain/terrain_%d.png", rand() % 7);
+	sprintf(dest_bonus, "gfx/bonus_ammo_%d.png", rand() % 2);
+	sprintf(dest_enemy, "gfx/enemy/enemy_%d_down_1.png", enemy_type);
+	
 	loadSprite(PLAYER_SPRITE, "gfx/bomberman_idle.png");
-	loadSprite(BOMB_SPRITE, "gfx/bomb/bomb_idle_1.png");
-	loadSprite(ENEMY_BLUE_IDLE_SPRITE, "gfx/enemy_blue/enemy_blue_left_1.png");
-	loadSprite(TERRAIN_SPRITE, "gfx/terrain_grass_with_wall.png");
+	loadSprite(BOMB_SPRITE, "gfx/bomb/bomb_1_idle_1.png");
+	loadSprite(ENEMY_IDLE_SPRITE, dest_enemy);
+	loadSprite(TERRAIN_SPRITE, dest_terrain);
 	loadSprite(PLAYER_DEAD_SPRITE, "gfx/bomberman_grave.png");
 	loadSprite(WALL_IDLE_SPRITE, "gfx/wall/wall_idle.png");
-	loadSprite(BRICK_IDLE_SPRITE, "gfx/brick_idle.png");
-	loadSprite(FIRE_SPRITE, "gfx/fire.png");
-	loadSprite(BONUS_AMMO_SPRITE, "gfx/bonus_ammo.png");
+	loadSprite(BRICK_IDLE_SPRITE, dest_brick);
+	loadSprite(FIRE_SPRITE, "gfx/fire_collision.png");
+	loadSprite(BONUS_AMMO_SPRITE, dest_bonus);
 }

@@ -4,10 +4,11 @@
 
 typedef struct Game
 {
-	TTF_Font *font;
+	TTF_Font *font, *message;
 	SDL_Surface *screen;
 	unsigned long timer;
-	unsigned int score;
+	unsigned long score;
+	unsigned long enemies; 
 } Game;
 
 typedef struct Sprite

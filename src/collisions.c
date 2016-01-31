@@ -1,14 +1,16 @@
 #include "collisions.h"
 
-extern void playSound(int);
-
 int collision(int, int, int, int, int, int, int, int);
-extern void checkAiCollision(int, int, int);
 
 void doCollisions()
 {
-	int i, j, movement = 64, rand_left, rand_right, rand_down, rand_up, digit;
-	static int prev_vector = 0;
+	int i, j, movement = 64;
+	
+	/*
+	int rand_left, rand_right, rand_down, rand_up, digit;
+	static int prev_vector = 0; 
+	*/
+
 	/* Check each entity against the rest and inactive player, skipping over inactive ones */
 
 	if(player.active == 0)
@@ -21,7 +23,7 @@ void doCollisions()
 	
 		/* Test player collision with enemy */
 	
-		if (entity[i].type == TYPE_ENEMY && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, player.x, player.y, player.sprite->w, player.sprite->h) == 1))
+		if (entity[i].type == TYPE_ENEMY && (collision(entity[i].x, entity[i].y, entity[i].sprite->w, entity[i].sprite->h, player.x, player.y, player.sprite->w - 4, player.sprite->h - 4) == 1))
 		{
 			player.active = 0;
 			playSound(DEAD_SOUND);
@@ -83,6 +85,7 @@ void doCollisions()
 				{
 					game.score+=100;
 					entity[j].active = 0;
+					game.enemies--;
 					bombermanCool.frameIndex = 0;
 					break;
 				}
@@ -134,10 +137,10 @@ void doCollisions()
 			entity[i].center = movement;
 			if(entity[i].timer == 0)
 			{
-				puts("ZERO");
+				/*
 				if(entity[i].up == 1)
 				{
-					if(entity[i].y >= 36)
+					if(entity[i].y >= 32)
 					{
 						entity[i].timer++;
 					}
@@ -158,14 +161,16 @@ void doCollisions()
 				}
 				if(entity[i].left == 1)
 				{
-					if(entity[i].x >= 20)
+					if(entity[i].x > 20)
 					{
 						entity[i].timer += 1000;
 					}
 				}
+				*/
 
 				/* Vector is random, due to make enemy more random, up = 1, down = 2, etc. */
-
+				
+				/*
 				digit = (int)entity[i].timer;
 				
 				if(digit/1000 >= 1)
@@ -186,67 +191,57 @@ void doCollisions()
 				
 				rand_left = digit % 10;
 
+				*/
+
 				/* Get random vector between 1 and 4 */
 				
-				entity[i].timer = (unsigned long) rand() % (10) + 2;
-					if(entity[i].timer > 4)
-						entity[i].timer -= 3;
-					if(entity[i].timer > 4)
-						entity[i].timer -= 3;
-					if(entity[i].timer > 4)
-						entity[i].timer -= 3;
-					puts("NEW VECTOR");
-						if((entity[i].y > (SCREEN_HEIGHT / 2) + 200) && (rand_up == 1))
-						{
-							entity[i].timer = 1;
-							break;
-						}
-						if((entity[i].y < (SCREEN_HEIGHT/2) - 200 ) && rand_down == 1)
-						{
-							entity[i].timer = 2;
-							break;
-						}
-						if((entity[i].x > (SCREEN_WIDTH / 2) + 350) &&  rand_left == 1)
-						{
-							entity[i].timer = 4;
-							break;
-						}
-						if((entity[i].x < (SCREEN_WIDTH / 2) - 350) && rand_right == 1)
-						{
-							entity[i].timer = 3;
-							break;
-						}
-					}
-					prev_vector--;
-					switch(entity[i].timer)
+				entity[i].timer = (unsigned long) rand() % 5;
+				
+				/* if(entity[i].timer == 0 && prev_vector == 0)
+				{
+					if((entity[i].y > (SCREEN_HEIGHT / 2) + 200) && (rand_up == 1))
 					{
-						case 1:
-							prev_vector = 2;
-							break;
-						case 2:
-							prev_vector = 1;
-							break;
-						case 3:
-							prev_vector = 4;
-							break;
-						case 4:
-							prev_vector = 3;
-							break;
-						default:
-							prev_vector = 0;
-							break;
+						entity[i].timer = 1;
+						break;
 					}
-					prev_vector++;
-					/*
-					if(entity[i].timer == 1 && rand_up == 1)
+					if((entity[i].y < (SCREEN_HEIGHT/2) - 200 ) && rand_down == 1)
+					{
+						entity[i].timer = 2;
 						break;
-					if(entity[i].timer == 2 && rand_down == 1)
+					}
+					if((entity[i].x > (SCREEN_WIDTH / 2) + 350) &&  rand_left == 1)
+					{
+						entity[i].timer = 4;
 						break;
-					if(entity[i].timer == 3 && rand_right == 1)
+					}
+					if((entity[i].x < (SCREEN_WIDTH / 2) - 350) && rand_right == 1)
+					{
+						entity[i].timer = 3;
 						break;
-					if(entity[i].timer == 4 && rand_left == 1)
-						break;
-					*/
+					}
+				}
+				*/
+			}
+			/*
+			switch(entity[i].timer)
+			{
+				case 1:
+					prev_vector = 2;
+					break;
+				case 2:
+					prev_vector = 1;
+					break;
+				case 3:
+					prev_vector = 4;
+					break;
+				case 4:
+					prev_vector = 3;
+					break;
+				default:
+					prev_vector = 0;
+					break;
+			}
+			*/
 		}
 	}
 }

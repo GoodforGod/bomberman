@@ -12,26 +12,33 @@
 #define MAX_ENTITIES 80
 #define MAX_RELOAD_TIME 55
 
+#define LEVEL_Y_OFFSET 32
+#define LEVEL_X_OFFSET 26
+#define BRICK_OFFSET 8
+#define PLAYER_OFFSET 0
+#define AI_OFFSET 4
+#define ENEMY_INIT_COUNT 2
+
 #define PLAYER_SPEED 2 
 #define BOMB_SPEED 8 
 
 #define ANIM_SPEED 7 
 
-enum
+enum sprites_enum
 {
 	PLAYER_SPRITE,
 	PLAYER_DEAD_SPRITE,
 	WALL_IDLE_SPRITE,
 	BRICK_IDLE_SPRITE,
  	BOMB_SPRITE,
-  	ENEMY_BLUE_IDLE_SPRITE,
+  	ENEMY_IDLE_SPRITE,
 	TERRAIN_SPRITE,
 	FIRE_SPRITE,
 	BONUS_AMMO_SPRITE,
 	MAX_SPRITES
 };
 
-enum
+enum sound_enum
 {
 	BOMB_SOUND,
 	DEAD_SOUND,
@@ -44,7 +51,7 @@ enum
  	MAX_SOUNDS
 };
 
-enum
+enum entity_type_enum
 {
 	TYPE_BONUS_AMMO,
 	TYPE_BOMB,

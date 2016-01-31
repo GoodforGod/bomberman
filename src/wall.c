@@ -1,10 +1,5 @@
 #include "wall.h"
 
-extern int getFreeEntity(void);
-extern void drawStandardEntity(void);
-extern SDL_Surface *getSprite(int);
-extern void drawAnimationEntity(void);
-
 static void doWall(void);
 
 /* Oh... Come on.... */

@@ -1,12 +1,5 @@
 #include "draw.h"
 
-extern void drawPlayer(void);
-extern void drawEntities(void);
-extern void drawLevel(void);
-extern void drawAnimation(Animation *, int, int);
-extern void drawString(char *, int, int, TTF_Font *, int, int);
-extern void doSpeedAnimation(Animation *, int);
-
 /* Function chooses animation depends on your direction */ 
 
 void chooseAnimation()
@@ -63,6 +56,7 @@ void draw()
 	char text_timer[40];
 	char text_score[40];
 	char text_bomb[40];
+	char text_enemy[40];
 	/* Blank the screen */
 	
 	SDL_FillRect(game.screen, NULL, 0);
@@ -76,15 +70,19 @@ void draw()
 		sprintf(text_bomb, "BOMB: %d", 0);
 	else sprintf(text_bomb, "BOMB: %d", player.bomb);
 
-	drawString(text_bomb, 810, 0, game.font, 200, 0);
-
-	sprintf(text_score, "SCORE: %d", game.score);
+	drawString(text_bomb, 800, 0, game.font, 200, 0);
 	
-	drawString(text_score, 510, 0, game.font, 200, 0);
+	sprintf(text_enemy, "ENEMY LEFT: %lu", game.enemies);
+	
+	drawString(text_enemy, 550, 0, game.font, 200, 0);
+
+	sprintf(text_score, "SCORE: %lu", game.score);
+	
+	drawString(text_score, 300, 0, game.font, 200, 0);
 	
 	sprintf(text_timer, "TIME: %lu", game.timer);
 	
-	drawString(text_timer, 150, 0, game.font, 100, 0);
+	drawString(text_timer, 50, 0, game.font, 100, 0);
 
 	/* Draw player animation */
 

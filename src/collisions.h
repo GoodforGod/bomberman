@@ -6,3 +6,6 @@ extern Control input;
 extern Game game;
 extern Animation bombermanCool;
 extern Entity *self;
+
+extern void playSound(int);
+extern void checkAiCollision(int, int, int);
