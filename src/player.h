@@ -4,6 +4,7 @@ extern Animation bombermanFront, bombermanBack, bombermanLeft, bombermanRight, b
 extern Entity player;
 extern Control input;
 
+extern void doAnimation(Animation *);
 extern int loadSprite(char *);
 extern void drawImage(SDL_Surface *, int, int);
 extern void addBomb(int, int);

@@ -33,8 +33,8 @@ void doPlayer()
 			
 			/* Trying to place bomb in the nearest possition */
 
-			bomb_x = player.x % 64 - 32;
-			bomb_y = player.y % 64 - 30;
+			bomb_x = player.x % 64 - 24;
+			bomb_y = player.y % 64 + 8;
 			
 			if(bomb_x < 32)
 			{
@@ -61,9 +61,14 @@ void doPlayer()
 		if (input.up == 1)
 		{
 			player.y -= PLAYER_SPEED;
-			/* Don't allow the player to move off the screen */
 		
-			if (player.y < 26)
+			/* Update player animation */
+		
+			doAnimation(&bombermanBack);
+			
+			/* Don't allow the player to move off the screen */
+			
+			if (player.y < LEVEL_Y_OFFSET)
 				player.y = player.prev_y;
 			return;
 		}
@@ -71,9 +76,14 @@ void doPlayer()
 		if (input.down == 1)
 		{
 			player.y += PLAYER_SPEED;
-			/* Don't allow the player to move off the screen */
+			
+			/* Update player animation */
 		
-			if (player.y + player.sprite->h >= SCREEN_HEIGHT-22)
+			doAnimation(&bombermanFront);
+			
+			/* Don't allow the player to move off the screen */
+			
+			if (player.y + player.sprite->h >= SCREEN_HEIGHT - LEVEL_X_OFFSET)
 				player.y = player.prev_y;
 			/*	player.y = SCREEN_HEIGHT - (player.sprite->h + 1); */
 			return;
@@ -82,9 +92,14 @@ void doPlayer()
 		if (input.left == 1)
 		{
 			player.x -= PLAYER_SPEED;
-			/* Don't allow the player to move off the screen */
+		
+			/* Update player animation */
 			
-			if (player.x < 20)
+			doAnimation(&bombermanLeft);
+			
+			/* Don't allow the player to move off the screen */
+		
+			if (player.x < LEVEL_X_OFFSET)
 				player.x = player.prev_x;
 			return;
 		}
@@ -92,9 +107,14 @@ void doPlayer()
 		if (input.right == 1)
 		{
 			player.x += PLAYER_SPEED;
+	
+			/* Update player animation */
+			
+			doAnimation(&bombermanRight);
+			
 			/* Don't allow the player to move off the screen */
 			
-			if (player.x + player.sprite->w >= SCREEN_WIDTH-20)
+			if (player.x + player.sprite->w >= SCREEN_WIDTH - LEVEL_X_OFFSET)
 				player.x = player.prev_x;
 				/* player.x = SCREEN_WIDTH - (player.sprite->w + 1); */
 			return;

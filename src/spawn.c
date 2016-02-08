@@ -2,18 +2,23 @@
 
 void spawnEnemy(size_t);
 
+/* If all enemies gone, then next wave is comming */
+
 void checkGameEnemy()
 {
 	char text_enemy[40], text_next[40];
 	unsigned long timer;
 	size_t random;
 
-	if(game.enemies == 0)
+	if(game.enemies == 0 && player.active == 1)
 	{
 		timer = SDL_GetTicks();
 		
+		SDL_FillRect(game.screen, NULL, 0);
+
 		while(SDL_GetTicks() - timer < 4000)
 		{
+			/* Cycle to display text during next wave ready */
 
 			sprintf(text_next, "NEXT WAVE COMING...");
 				sprintf(text_enemy, "3...");
@@ -24,8 +29,8 @@ void checkGameEnemy()
 			if(SDL_GetTicks() - timer > 3400)
 				sprintf(text_enemy, "Let the games begin!");
 		
-			drawString(text_enemy, 400, 350, game.message, 200, 0);
-			drawString(text_next, 400, 150, game.message, 200, 0);
+			drawString(text_enemy, 100, 350, game.message, 200, 0);
+			drawString(text_next, 100, 150, game.message, 200, 0);
 			SDL_Flip(game.screen);
 	
 			/* Sleep briefly */
@@ -42,19 +47,26 @@ void checkGameEnemy()
 		if(game.score > 12000)
 			random = (size_t)rand() % 10 + 2;
 		spawnEnemy(random);
+
+		/* Reset player possition */
+
+		player.x = 30 + 128;
+		player.y = SCREEN_HEIGHT/2 - 24;
 	}
 }
 
+/* Function spawns enemies on the right side of the map */
+
 void spawnEnemy(size_t enemy_amount)
 {
-	int spawnOffsetX = SCREEN_WIDTH - LEVEL_X_OFFSET, spawnOffsetY = SCREEN_HEIGHT - LEVEL_X_OFFSET;
+	int spawnOffsetX = SCREEN_WIDTH - LEVEL_X_OFFSET - 2, spawnOffsetY = LEVEL_Y_OFFSET;
 	size_t i;
 	int randomOffset;
 
 	for(i = 0; i < enemy_amount; i++)
 	{
 		randomOffset = rand() % 10;
-		addEnemy(spawnOffsetX - 64, spawnOffsetY - 64 - (64 * randomOffset));
+		addEnemy(spawnOffsetX - 64, spawnOffsetY + 64 + (64 * randomOffset));
 	}
 	game.enemies = enemy_amount;
 }

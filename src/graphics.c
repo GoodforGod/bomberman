@@ -108,6 +108,7 @@ void loadAllSprites()
 	sprintf(dest_bonus, "gfx/bonus_ammo_%d.png", rand() % 2);
 	sprintf(dest_enemy, "gfx/enemy/enemy_%d_down_1.png", enemy_type);
 	
+	loadSprite(LOGO_SPRITE, "gfx/logo.png");
 	loadSprite(PLAYER_SPRITE, "gfx/bomberman_idle.png");
 	loadSprite(BOMB_SPRITE, "gfx/bomb/bomb_1_idle_1.png");
 	loadSprite(ENEMY_IDLE_SPRITE, dest_enemy);

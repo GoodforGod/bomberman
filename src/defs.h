@@ -6,14 +6,14 @@
 #include "SDL/SDL_mixer.h"
 #include "SDL/SDL_ttf.h"
 
-#define SCREEN_WIDTH 1014 
-#define SCREEN_HEIGHT 762 
+#define SCREEN_WIDTH 1004 
+#define SCREEN_HEIGHT 782 
 
 #define MAX_ENTITIES 80
 #define MAX_RELOAD_TIME 55
 
-#define LEVEL_Y_OFFSET 32
-#define LEVEL_X_OFFSET 26
+#define LEVEL_Y_OFFSET 48
+#define LEVEL_X_OFFSET 24
 #define BRICK_OFFSET 8
 #define PLAYER_OFFSET 0
 #define AI_OFFSET 4
@@ -35,6 +35,7 @@ enum sprites_enum
 	TERRAIN_SPRITE,
 	FIRE_SPRITE,
 	BONUS_AMMO_SPRITE,
+	LOGO_SPRITE,
 	MAX_SPRITES
 };
 

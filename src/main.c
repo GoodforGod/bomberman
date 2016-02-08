@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
 	unsigned int frameLimit = SDL_GetTicks() + 16;
 	int go, terr;
-	unsigned long timer;
+	unsigned long timer, playerDeadTimer = 0;
 	
 	/* Make rand based on time */
 	
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	/* Load fonts */
 
 	game.font = loadFont("font/MunroNarrow.ttf", 24);
-	game.message = loadFont("font/MunroNarrow.ttf", 76);
+	game.message = loadFont("font/MunroNarrow.ttf", 96);
 	
 	/* Intialise the player and terrain */
 	
@@ -50,57 +50,67 @@ int main(int argc, char *argv[])
 	if(terr == 1)
 		exit(0);
 
-	/* Play start sound */
-
-	playSound(PLAYER_START_SOUND);
-
 	/* Fill the level with enemies and other stuff */
 
 	fillLevel();
+
+	/* Start up with menu */
 	
+	initMenu();
+
 	/* Plays background music */
 
 	playSoundTimes(BACKGROUND_NORMAL_SOUND, -1);
 
-	/* Loop indefinitely for messages */
+	/* Play start sound */
+
+	playSound(PLAYER_START_SOUND);
+
+	/* Start up game timer */
 	
 	timer = SDL_GetTicks();
 
+	/* Loop indefinitely for messages */
+	
 	while (go == 1)
 	{
 		/* Get the input */
 		
 		getInput(); 
 		
-		/* Update the player's position */
+		/* if player dead, stop a lot of main functions in 4 seconds, cause not nessesery any more */
 		
-		doPlayer();
+		if(player.active == 0 && playerDeadTimer == 0)
+			playerDeadTimer = SDL_GetTicks();
+		if(playerDeadTimer == 0 || SDL_GetTicks() - playerDeadTimer < 4000)
+		{
+			/* Update the player's position and animation frames */
 		
-		/* Update animation frames */
+			doPlayer();
+		
+			/* Update the entities */
+		
+			doEntities(); 
+		
+			/* Do the collisions */
+		
+			doCollisions();
+		
+			/* Draw everything */
+		
+			draw(); 
 
-		doAnimation(&bombermanBack);
-		doAnimation(&bombermanFront);
-		doAnimation(&bombermanLeft);
-		doAnimation(&bombermanRight);
+			/* Check if all enemies dead, then spawn next wave */
 
-		/* Update the entities */
-		
-		doEntities(); 
-		
-		/* Do the collisions */
-		
-		doCollisions();
-		
-		/* Draw everything */
-		
-		draw(); 
+			checkGameEnemy();
 
-		checkGameEnemy();
+			/* Update dame timer */
 
+			game.timer = (SDL_GetTicks() - timer) / 1000;
+		}
+	
 		/* Sleep briefly to stop sucking up all the CPU time */
 		
-		game.timer = (SDL_GetTicks() - timer) / 1000;
-
 		delay(frameLimit);
 		
 		frameLimit = SDL_GetTicks() + 16;

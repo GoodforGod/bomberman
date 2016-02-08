@@ -94,6 +94,9 @@ void draw()
 	
 	/* Update the buffer */
 
+	if(player.active == 0)
+		drawString("GAME OVER", 320, 350, game.message, 100, 0);
+		
 	SDL_Flip(game.screen);
 	
 	/* Sleep briefly */

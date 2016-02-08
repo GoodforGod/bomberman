@@ -4,13 +4,14 @@
 int enemy_type;
 
 Game game;
-Control input;
+Control input, menuInput;
 Entity player, *self, entity[MAX_ENTITIES];
 Sprite sprite[MAX_SPRITES];
 Sound sound[MAX_SOUNDS];
 Animation wallAnimation, fireFrontAnimation, fireRightAnimation, fireBackAnimation, fireLeftAnimation, fireCenterAnimation, bombermanFront, bombermanBack, bombermanLeft, bombermanRight, bombermanDead, bombermanCool, enemyUp, enemyDown, enemyLeft, enemyRight, bombAnimation;
- 
-extern void checkGameEnemy();
+
+extern void initMenu(void);
+extern void checkGameEnemy(void);
 extern void init(char *);
 extern void cleanup(void);
 extern void getInput(void);

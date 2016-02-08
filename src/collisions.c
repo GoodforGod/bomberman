@@ -4,8 +4,8 @@ int collision(int, int, int, int, int, int, int, int);
 
 void doCollisions()
 {
-	int i, j, movement = 64;
-	
+	int i, j, movement = 64, playerHeightOffset = 6, playerWidthOffset = 12 ;
+
 	/*
 	int rand_left, rand_right, rand_down, rand_up, digit;
 	static int prev_vector = 0; 
@@ -32,7 +32,7 @@ void doCollisions()
 		
 		/* Test player collision with wall and brick or bonus */
 
-		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK || entity[i].type == TYPE_BONUS_AMMO) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w-12, entity[i].sprite->h-4, player.x, player.y, player.sprite->w-12, player.sprite->h-4) == 1))
+		if ((entity[i].type == TYPE_WALL || entity[i].type == TYPE_BRICK || entity[i].type == TYPE_BONUS_AMMO) && (collision(entity[i].x, entity[i].y, entity[i].sprite->w - playerWidthOffset, entity[i].sprite->h - playerHeightOffset, player.x, player.y, player.sprite->w - playerWidthOffset, player.sprite->h - playerHeightOffset) == 1))
 		{
 			if(entity[i].type == TYPE_BONUS_AMMO)
 			{
