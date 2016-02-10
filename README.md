@@ -1,19 +1,19 @@
-# :bomb: reBomberman overview :bomb: :
- [alt tag](http://vignette4.wikia.nocookie.net/deathbattle/images/e/eb/Bomberman_2.jpg/revision/latest?cb=20150901182116)
- Recreation old school game 'Bomberman'.
+# :bomb: [re]Bomberman :bomb:
+ ![Alt text](http://vignette4.wikia.nocookie.net/deathbattle/images/e/eb/Bomberman_2.jpg/revision/latest?cb=20150901182116 "Bomberman")
+Recreation old school game 'Bomberman'.
 
-# Version :date::
+# Version :date:
  *Alpha 0.2*
 
-# Used :bar_chart::
+# Used :bar_chart:
   - C lang.
   - SDL cross-platform multimedia library.
   - VIM.
 
-# Getting started :clipboard::
+# Getting started :clipboard:
   1. Make sure you got SDL library installed.
-  Official site for stable realese [SDL] (https://www.libsdl.org/download-2.0.php).
-  How to check version of SDL library.
+Official site for stable realese [SDL] (https://www.libsdl.org/download-2.0.php).
+How to check version of SDL library.
   ~~~bash
   user$ sdl-config --version
   ~~~
@@ -31,5 +31,6 @@
   4. Enjoy :bowtie:
 
 # Author
- Kurako Anton.
- Was written in :calendar: : 2015-2016.
+Kurako Anton.
+ 
+Was written in :calendar: : 2015-2016.
